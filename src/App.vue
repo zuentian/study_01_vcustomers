@@ -36,11 +36,11 @@ import Add from './components/Add'
 import CustomerDetails from './components/CustomerDetails'
 import Edit from './components/Edit'
 import AddressListAdd from './components/AddressListAdd'
-
+import Login from './components/Login'
 export default {
   name: 'App',
   components: {
-    Customers,About,Add,CustomerDetails,Edit,AddressListAdd
+    Customers,About,Add,CustomerDetails,Edit,AddressListAdd,Login
   }
 }
 </script>
