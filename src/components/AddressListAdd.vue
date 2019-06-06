@@ -87,7 +87,7 @@ export default {
         return arr;
       },
       handleChange(value) {
-        console.log(value);
+        //console.log(value);
       }
       
   },
