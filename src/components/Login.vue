@@ -5,9 +5,9 @@
         <h3 class="title">系统登录</h3>
       </div>
       <el-form-item prop="username">
-        <!-- <span class="svg-container svg-container_login">
+        <span class="svg-container svg-container_login">
           <svg-icon icon-class="user" />
-        </span> -->
+        </span> 
         <el-input name="username" type="text" v-model="loginForm.username" autoComplete="on" placeholder="账号" />
       </el-form-item>
 
