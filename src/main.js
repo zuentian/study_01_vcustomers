@@ -8,6 +8,7 @@ import About from './components/About'
 import VueResource from 'vue-resource'
 import Routes from './routes'
 import $ from 'jquery'
+import './icon'
 
 import 'bootstrap/dist/js/bootstrap.min.js'
 import 'bootstrap/dist/css/bootstrap.min.css'
