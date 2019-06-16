@@ -1,6 +1,6 @@
 <template>
-  <!-- <svg :class="svgClass" aria-hidden="true"> -->
-  <svg class="svg-icon" aria-hidden="true">
+  <svg :class="svgClass" aria-hidden="true"> 
+  <!-- <svg class="svg-icon" aria-hidden="true"> -->
     <use :xlink:href="iconName"></use>
   </svg>
 </template>
@@ -19,16 +19,18 @@ export default {
   },
   computed: {
     iconName() {
+      console.log(this.iconClass);
       return `#icon-${this.iconClass}`
     }
-    // ,
-    // svgClass() {
-    //   if (this.className) {
-    //     return 'svg-icon ' + this.className
-    //   } else {
-    //     return 'svg-icon'
-    //   }
-    // }
+     ,
+     svgClass() {
+       if (this.className) {
+         console.log(this.className);
+        return 'svg-icon ' + this.className
+       } else {
+         return 'svg-icon'
+       }
+     }
   }
 }
 </script>
