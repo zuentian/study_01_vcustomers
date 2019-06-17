@@ -53,6 +53,7 @@
     "vue-resource": "^1.5.1",
     "vue-style-loader": "^3.0.1",
     "vue-svg-icon": "^1.2.9",
+    "vue-svgicon": "^3.2.6",
     "vue-template-compiler": "^2.5.2",
     "webpack": "^3.6.0",
     "webpack-bundle-analyzer": "^2.9.0",
