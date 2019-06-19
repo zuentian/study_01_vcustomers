@@ -29,6 +29,7 @@
 </template>
 
 <script>
+import md5 from 'js-md5';
 export default {
   name: 'login',
   data () {
@@ -49,6 +50,23 @@ export default {
         this.passwordType = 'password'
       }
     },
+    //登录
+    handleLogin() {
+      this.loading = true
+      this.$store.dispatch('AC_Login', {
+        username: this.loginForm.username,
+        password: md5(this.loginForm.password)
+      }).then(res => {
+        this.loading = false
+        this.$router.push({ path: '/' })
+      }).catch((err) => {
+        this.$store.commit('SHOW_ERROR_TOAST', err.msg || err)        
+      }).finally(() => {
+        this.loading = false
+      })
+     }
+
+
   }
 }
 </script>
