@@ -53,9 +53,12 @@ export default {
     //登录
     handleLogin() {
       this.loading = true
+      if(this.loginForm.password!=''){
+        this.loginForm.password=md5(this.loginForm.password)
+      }
       this.$store.dispatch('AC_Login', {
         username: this.loginForm.username,
-        password: md5(this.loginForm.password)
+        password: this.loginForm.password
       }).then(res => {
         this.loading = false
         this.$router.push({ path: '/' })
