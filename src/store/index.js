@@ -1,7 +1,16 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import { login } from '@/api'
+import {ModalPlugin} from '@/plugins'
+import { setToken } from '@/utils'
 Vue.use(Vuex)
+Vue.use(ModalPlugin)
+
+//  const configPlugin = (options) => {
+//    Object.keys(plugins).forEach(key => {
+//      Vue.use(plugins[key], options)
+//    })
+//  }
 
 //创建vuex的store
 const store=new Vuex.Store({
@@ -9,12 +18,18 @@ const store=new Vuex.Store({
         // count:5
     },
     mutations:{
-        // increment(state){
-        //     state.count++
-        // },
-        // decrement(state){
-        //     state.count--
-        // }
+        UPDATE_TOKEN(state, payload) {
+            setToken(payload)
+            console.log(payload)
+            state.token = payload
+          },
+        SHOW_ERROR_TOAST(state, message) {
+            Vue.modal.toast({
+              showClose: true,
+              message: message,
+              type: 'error'
+            })
+        }
     },
     //有异步的时候，需要action
     actions:{

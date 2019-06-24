@@ -1,0 +1,1 @@
+export { default as ModalPlugin } from './modal'
