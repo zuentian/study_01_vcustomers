@@ -10,7 +10,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="#">用户管理系统</a>
+          <a class="navbar-brand" href="/login">用户管理系统</a>
         </div>
         <div id="navbar" class="collapse navbar-collapse">
           <ul class="nav navbar-nav">
@@ -47,5 +47,5 @@ export default {
 </script>
 
 <style>
-
+body {  padding-top: 30px; padding-bottom: 120px;}
 </style>

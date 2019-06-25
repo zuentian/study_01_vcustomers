@@ -1,29 +1,61 @@
 <template>
 <div class="login-container">
+  
     <el-form class="login-form" autoComplete="on" :model="loginForm" ref="loginForm" label-position="left">
       <div class="title-container">
-        <h3 class="title">系统登录</h3>
-      </div>
-      <el-form-item prop="username">
         
-        <span class="svg-container svg-container_login">
-          <svg-icon icon-class="user" />
-        </span>  
-        <el-input name="username" type="text" v-model="loginForm.username" autoComplete="on" placeholder="账号" />
-      </el-form-item>
+        <el-tabs v-model="activeName" @tab-click="handleClick" style="height: 200px;"  tab-position="top">
+          <el-tab-pane label="系统登录" name="selectLogin">
 
-      <el-form-item prop="password">
-        <span class="svg-container">
-          <svg-icon icon-class="password" />
-        </span> 
-        <el-input name="password" :type="passwordType" @keyup.enter.native="handleLogin" v-model="loginForm.password" autoComplete="on" placeholder="密码" />
-       <span class="show-pwd" @click="showPwd">
-          <svg-icon icon-class="eye" />
-        </span> 
-      </el-form-item>
+            <el-form-item prop="username">
+        
+              <span class="svg-container svg-container_login">
+              <svg-icon icon-class="user" />
+              </span>  
+              <el-input name="username" type="text" v-model="loginForm.username" autoComplete="on" placeholder="账号" />
+            </el-form-item>
 
-      <el-button type="primary" style="width:100%;margin-bottom:30px;" :loading="loading" @click.native.prevent="handleLogin">登录</el-button>
+            <el-form-item prop="password">
+              <span class="svg-container">
+              <svg-icon icon-class="password" />
+              </span> 
+              <el-input name="password" :type="passwordType" @keyup.enter.native="handleLogin" v-model="loginForm.password" autoComplete="on" placeholder="密码" />
+              <span class="show-pwd" @click="showPwd">
+              <svg-icon icon-class="eye" />
+              </span> 
+            </el-form-item>
+            <el-button type="primary" style="width:100%;margin-bottom:40px;float:left;" :loading="loading" @click.native.prevent="handleLogin">登录</el-button>
 
+          </el-tab-pane>
+
+
+
+          <el-tab-pane label="系统注册" name="selectRegister">
+
+
+            <el-form-item prop="username">
+        
+              <span class="svg-container svg-container_login">
+              <svg-icon icon-class="user" />
+              </span>  
+              <el-input name="username" type="text" v-model="loginForm.username" autoComplete="on" placeholder="账号" />
+            </el-form-item>
+
+            <el-form-item prop="password">
+              <span class="svg-container">
+              <svg-icon icon-class="password" />
+              </span> 
+              <el-input name="password" :type="passwordType" @keyup.enter.native="handleLogin" v-model="loginForm.password" autoComplete="on" placeholder="密码" />
+              <span class="show-pwd" @click="showPwd">
+              <svg-icon icon-class="eye" />
+              </span> 
+            </el-form-item>
+            <el-button type="primary" style="width:100%;margin-bottom:40px;float:right;" :loading="loading" @click.native.prevent="register">注册</el-button>
+
+          </el-tab-pane>
+        </el-tabs>
+      </div>
+      
     </el-form>
   </div>
 </template>
@@ -40,7 +72,8 @@ export default {
       },
       passwordType: 'password',
       loading: false,
-      showDialog: false
+      showDialog: false,
+      activeName:'selectLogin'
     }
   },methods:{
       showPwd() {
@@ -67,8 +100,13 @@ export default {
       }).finally(() => {
         this.loading = false
       })
-     }
+     },
+     register(){
 
+     },
+     handleClick(tab, event) {
+        //console.log(tab, event);
+      }
 
   }
 }
@@ -176,5 +214,16 @@ $light_gray:#eee;
     right: 35px;
     bottom: 28px;
   }
+}
+</style>
+<style >
+/* scoped是有作用域，有时间加上，并依然能达到效果 */
+.el-tabs__item{
+ color: #eceff5
+}
+.el-tabs__item.is-active {
+    color: #409EFF;
+    font-weight:bold;
+    font-size:150%;
 }
 </style>
