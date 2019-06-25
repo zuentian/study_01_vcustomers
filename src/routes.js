@@ -6,7 +6,8 @@ import Edit from './components/Edit.vue'
 import AddressListAdd from './components/AddressListAdd.vue'
 import Login from './components/Login.vue'
 export default[
-    {path:"/",component:Login},
+    {path:"/",component:Customers},
+    {path:"/login",component:Login},
     {path:"/about",component:About},
     {path:"/add",component:Add},
     {path:"/customer/:userId",component:CustomerDetails},
