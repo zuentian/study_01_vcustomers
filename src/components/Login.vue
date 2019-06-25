@@ -63,7 +63,7 @@ export default {
         this.loading = false
         this.$router.push({ path: '/' })
       }).catch((err) => {
-        this.$store.commit('SHOW_ERROR_TOAST', err.msg || err)        
+        this.$store.commit('SHOW_ERROR_TOAST', err.body.message || err.body)        
       }).finally(() => {
         this.loading = false
       })
