@@ -38,14 +38,14 @@
               <span class="svg-container svg-container_login">
               <svg-icon icon-class="user" />
               </span>  
-              <el-input name="usernameRegister" type="text" v-model="loginForm.usernameRegister" autoComplete="on" placeholder="请输入账号" />
+              <el-input name="usernameRegister" type="text" v-model="loginForm.usernameRegister"  placeholder="请输入账号" />
             </el-form-item>
 
             <el-form-item prop="passwordRegister">
               <span class="svg-container">
               <svg-icon icon-class="password" />
               </span> 
-              <el-input name="passwordRegister" :type="passwordRegisterType" v-model="loginForm.passwordRegister" autoComplete="on" placeholder="请输入密码" />
+              <el-input name="passwordRegister" :type="passwordRegisterType" v-model="loginForm.passwordRegister" placeholder="请输入密码" />
               <span class="show-pwd" @click="showPwdRegister">
               <svg-icon icon-class="eye" />
               </span> 
@@ -55,11 +55,18 @@
               <span class="svg-container">
               <svg-icon icon-class="password" />
               </span> 
-              <el-input name="passwordRegister2" :type="passwordRegisterType" v-model="loginForm.passwordRegister2" autoComplete="on" placeholder="再次输入密码" />
+              <el-input name="passwordRegister2" :type="passwordRegisterType" v-model="loginForm.passwordRegister2"  placeholder="再次输入密码" />
               <span class="show-pwd" @click="showPwdRegister">
               <svg-icon icon-class="eye" />
               </span> 
             </el-form-item>
+
+             
+                <transition name="el-fade-in-linear">
+                <div v-show="show" class="transition-box">密码不一致</div>
+                </transition>
+             
+
             <el-button type="primary" style="width:100%;margin-bottom:40px;float:right;" :loading="loading" @click.native.prevent="register">注册</el-button>
 
           </el-tab-pane>
@@ -87,7 +94,8 @@ export default {
       passwordRegisterType: 'password',
       loading: false,
       showDialog: false,
-      activeName:'selectLogin'
+      activeName:'selectLogin',
+      show:false
     }
   },methods:{
     showPwd() {
@@ -129,6 +137,22 @@ export default {
         Object.assign(this.$data, this.$options.data());//置空data数据
       }
 
+  },
+  watch:{
+    'loginForm.passwordRegister2':function(newVal){
+         if(newVal!=''&&newVal!=this.loginForm.passwordRegister){
+           this.show=true;
+         }else{
+           this.show=false;
+         }
+      },
+    'loginForm.passwordRegister':function(newVal){
+        if(this.loginForm.passwordRegister2!=''&&newVal!=this.loginForm.passwordRegister2){
+          this.show=true;
+        }else{
+          this.show=false;
+        }
+    },
   }
 }
 </script>
@@ -246,12 +270,30 @@ $light_gray:#eee;
  color: #acb5cc ;
  
 }
+
+
+
 }
+
 .el-tabs {
  /deep/ .el-tabs__item.is-active {
     color: #409EFF;
     font-weight:bold;
     font-size:150%;
 }
+
 }
+.transition-box {
+    margin-bottom: 10px;
+    width: 100%;
+    
+    border-radius: 4px;
+    background-color: rgb(219, 10, 20);
+    text-align: center;
+    color: #fff;
+    padding: 12px 20px;
+    box-sizing: border-box;
+    margin-right: 20px;
+  }
+ 
 </style>
