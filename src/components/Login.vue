@@ -4,7 +4,7 @@
     <el-form class="login-form" autoComplete="on" :model="loginForm" ref="loginForm" label-position="left">
       <div class="title-container">
         
-        <el-tabs v-model="activeName" @tab-click="handleClick" style="height: 200px;"  tab-position="top">
+        <el-tabs v-model="activeName" @tab-click="handleClick" style="height: 200px;" stretch tab-position="top">
           <el-tab-pane label="系统登录" name="selectLogin">
 
             <el-form-item prop="username">
@@ -33,20 +33,30 @@
           <el-tab-pane label="系统注册" name="selectRegister">
 
 
-            <el-form-item prop="username">
+            <el-form-item prop="usernameRegister">
         
               <span class="svg-container svg-container_login">
               <svg-icon icon-class="user" />
               </span>  
-              <el-input name="username" type="text" v-model="loginForm.username" autoComplete="on" placeholder="账号" />
+              <el-input name="usernameRegister" type="text" v-model="loginForm.usernameRegister" autoComplete="on" placeholder="请输入账号" />
             </el-form-item>
 
-            <el-form-item prop="password">
+            <el-form-item prop="passwordRegister">
               <span class="svg-container">
               <svg-icon icon-class="password" />
               </span> 
-              <el-input name="password" :type="passwordType" @keyup.enter.native="handleLogin" v-model="loginForm.password" autoComplete="on" placeholder="密码" />
-              <span class="show-pwd" @click="showPwd">
+              <el-input name="passwordRegister" :type="passwordRegisterType" v-model="loginForm.passwordRegister" autoComplete="on" placeholder="请输入密码" />
+              <span class="show-pwd" @click="showPwdRegister">
+              <svg-icon icon-class="eye" />
+              </span> 
+            </el-form-item>
+
+            <el-form-item prop="passwordRegister2">
+              <span class="svg-container">
+              <svg-icon icon-class="password" />
+              </span> 
+              <el-input name="passwordRegister2" :type="passwordRegisterType" v-model="loginForm.passwordRegister2" autoComplete="on" placeholder="再次输入密码" />
+              <span class="show-pwd" @click="showPwdRegister">
               <svg-icon icon-class="eye" />
               </span> 
             </el-form-item>
@@ -68,20 +78,31 @@ export default {
     return {
      loginForm: {
         username: '',
-        password: ''
+        password: '',
+        usernameRegister:'',
+        passwordRegister:'',
+        passwordRegister2:''
       },
       passwordType: 'password',
+      passwordRegisterType: 'password',
       loading: false,
       showDialog: false,
       activeName:'selectLogin'
     }
   },methods:{
-      showPwd() {
+    showPwd() {
       if (this.passwordType === 'password') {
         this.passwordType = ''
       } else {
         this.passwordType = 'password'
       }
+    },
+    showPwdRegister(){
+      if (this.passwordRegisterType === 'password') {
+        this.passwordRegisterType = ''
+      } else {
+        this.passwordRegisterType = 'password'
+      }  
     },
     //登录
     handleLogin() {
@@ -105,7 +126,7 @@ export default {
 
      },
      handleClick(tab, event) {
-        //console.log(tab, event);
+        Object.assign(this.$data, this.$options.data());//置空data数据
       }
 
   }
@@ -216,14 +237,21 @@ $light_gray:#eee;
   }
 }
 </style>
-<style >
+<style rel="stylesheet/scss" lang="scss"  scoped>
 /* scoped是有作用域，有时间加上，并依然能达到效果 */
-.el-tabs__item{
- color: #eceff5
+/* 20190626 采用scss里的deep的做法，可以达到覆盖子标签样式的效果*/
+
+.el-tabs {
+/deep/ .el-tabs__item{
+ color: #acb5cc ;
+ 
 }
-.el-tabs__item.is-active {
+}
+.el-tabs {
+ /deep/ .el-tabs__item.is-active {
     color: #409EFF;
     font-weight:bold;
     font-size:150%;
+}
 }
 </style>
