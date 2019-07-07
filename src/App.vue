@@ -17,6 +17,7 @@
             <li><router-link to="/">主页</router-link></li>
             <li><router-link to="/about">About</router-link></li>
             <li><router-link to="/addressListAdd">城市列表</router-link></li>
+             <li><router-link to="/updownFile">文件上传</router-link></li>
           </ul>
 
           <ul class="nav navbar-nav navbar-right">
@@ -36,12 +37,13 @@ import Add from './components/Add'
 import CustomerDetails from './components/CustomerDetails'
 import Edit from './components/Edit'
 import AddressListAdd from './components/AddressListAdd'
+import UpdownFile from './components/UpdownFile'
 //import Login from './components/Login'
 
 export default {
   name: 'App',
   components: {
-    Customers,About,Add,CustomerDetails,Edit,AddressListAdd//,Login
+    Customers,About,Add,CustomerDetails,Edit,AddressListAdd,UpdownFile//,Login
   }
 }
 </script>
