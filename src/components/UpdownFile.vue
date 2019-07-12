@@ -7,6 +7,8 @@
         :data="fileData"
         :before-upload="handleBeforeUpload"
         :on-change="onUploadChange"
+        :on-success="handleSuccess"
+        :on-error="handleError"
         >
         <i class="el-icon-upload"></i>
         <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
@@ -38,7 +40,14 @@ export default {
         },
         onUploadChange(file){
             
+        },
+        handleSuccess(res, file, fileList){
+            console.log(res);
+        },
+        handleError(err, file, fileList){
+            this.$store.commit('SHOW_ERROR_TOAST', file.name+" 上传失败！")   
         }
+        
     }
     ,
 }

@@ -12,12 +12,12 @@ Vue.use(ModalPlugin)
 //    })
 //  }
 
-//创建vuex的store
+//创建vuex的store--状态管理
 const store=new Vuex.Store({
     state:{
         // count:5
     },
-    mutations:{
+    mutations:{//提交状态修改
         UPDATE_TOKEN(state, payload) {
             setToken(payload)
             console.log(payload)
