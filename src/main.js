@@ -16,8 +16,9 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css';
+import echarts from 'echarts'
 
-import store from './store'
+import store from './store'//状态管理
 
 
 Vue.config.productionTip = false
@@ -26,6 +27,7 @@ Vue.use(VueRouter);
 Vue.use(VueResource);
 Vue.use(ElementUI);
 Vue.use(Vuex)
+Vue.prototype.$echarts=echarts
 
 //设置路由
 const router =new VueRouter({

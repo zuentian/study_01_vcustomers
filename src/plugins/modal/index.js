@@ -4,7 +4,7 @@ import {
   Notification,
   Loading
 } from 'element-ui'
-
+//公共弹窗
 var modal = {
   toast: Message,
   alert: MessageBox.alert,

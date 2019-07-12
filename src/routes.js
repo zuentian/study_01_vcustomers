@@ -6,6 +6,7 @@ import Edit from './components/Edit.vue'
 import AddressListAdd from './components/AddressListAdd.vue'
 import Login from './components/Login.vue'
 import UpdownFile from './components/UpdownFile.vue'
+import EchartsShow from './components/EchartsShow.vue'
 export default[
     {path:"/",component:Customers},
     {path:"/login",component:Login},
@@ -14,5 +15,6 @@ export default[
     {path:"/customer/:userId",component:CustomerDetails},
     {path:"/edit/:userId",component:Edit},
     {path:"/addressListAdd",component:AddressListAdd},
-    {path:"/updownFile",component:UpdownFile}
+    {path:"/updownFile",component:UpdownFile},
+    {path:"/echartsShow",component:EchartsShow}
 ]
