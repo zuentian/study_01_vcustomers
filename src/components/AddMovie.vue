@@ -31,7 +31,7 @@
                 <el-form-item label="电影简介" prop="movieContent"><el-input type="textarea"  placeholder=""  :autosize="{ minRows: 5, maxRows: 10}" v-model="MovieInfo.movieContent"></el-input></el-form-item>
                 
                 
-                <el-form-item label="电影海报和剧照" prop="moviePicture">
+                <el-form-item label="电影海报和剧照" >
                     <el-upload class="upload-moviePicture" 
                     action=""  multiple 
                     list-type="picture-card" 
@@ -168,6 +168,7 @@ export default {
                   this.loading = false
               })
           } else {
+            
             this.$store.commit('SHOW_ERROR_TOAST', "信息不完整，无法添加")    
             this.loading = false
             return false;
@@ -175,6 +176,7 @@ export default {
         });
       },
       resetForm(formName) {
+        this.$refs.upload.clearFiles();//清空图片
         this.$refs[formName].resetFields();
         this.MovieInfo.movieDBScore=0;
         this.MovieInfo.movieRelNames=[{movieRelName: ''}];
