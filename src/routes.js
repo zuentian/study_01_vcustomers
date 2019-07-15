@@ -9,6 +9,7 @@ import UpdownFile from './components/UpdownFile.vue'
 import EchartsShow from './components/EchartsShow.vue'
 import AddMovie from './components/AddMovie.vue'
 import MovieInfo from './components/MovieInfo.vue'
+import UpdateMovie from './components/UpdateMovie.vue'
 export default[
     {path:"/",component:Customers},
     {path:"/login",component:Login},
@@ -21,4 +22,5 @@ export default[
     {path:"/echartsShow",component:EchartsShow},
     {path:"/addMovie",component:AddMovie},
     {path:"/movieInfo",component:MovieInfo},
+    {path:"/updateMovie/:movieId",component:UpdateMovie},
 ]

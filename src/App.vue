@@ -43,11 +43,14 @@ import EchartsShow from './components/EchartsShow'
 import AddMovie from './components/AddMovie'
 //import Login from './components/Login'
 import MovieInfo from './components/MovieInfo'
+import UpdateMovie from './components/UpdateMovie'
 
 export default {
   name: 'App',
   components: {
-    Customers,About,Add,CustomerDetails,Edit,AddressListAdd,UpdownFile,EchartsShow,AddMovie,MovieInfo//,Login
+    Customers,About,Add,CustomerDetails,Edit,
+    AddressListAdd,UpdownFile,EchartsShow,AddMovie,MovieInfo,
+    UpdateMovie//,Login
   }
 }
 </script>

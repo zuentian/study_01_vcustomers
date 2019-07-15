@@ -11,8 +11,8 @@
             <el-table-column align="center" prop="movieWatchTime"  label="观影时间" width="170" :formatter="movieWatchTimeFormatter"></el-table-column>
             <el-table-column fixed="right" align="center" label="操作" width="100">
             <template slot-scope="scope">
-                <el-button @click="handleClick(scope.row)" type="text" size="small">查看</el-button>
-                <el-button type="text" size="small">编辑</el-button>
+                <el-button @click="updateMovieData(scope.row)" type="text" size="small">编辑</el-button>
+                <!-- <el-button type="text" size="small">删除</el-button> -->
             </template>
             </el-table-column>
         </el-table>
@@ -51,7 +51,6 @@ export default {
                 page:currentPage,
                 pageSize:pageSize
             }).then(res=>{
-                //console.log(res);
                 this.movieInfo=res.body.list;
                 if(res.body.total>0){
                     this.isShowPagination=true;
@@ -85,15 +84,15 @@ export default {
             }
         },
         handleSizeChange(val) {
-            //console.log(val)
-            //console.log(this.page)
             this.pageSize=val;
             this.queryMovieInfo(this.currentPage,val);
         },
         handleCurrentChange(val) {
-            //console.log(val,this.pageSize)
             this.currentPage=val;
             this.queryMovieInfo(val,this.pageSize);
+        },
+        updateMovieData(row){
+            this.$router.push({path: '/updateMovie/'+row.movieId});
         },
  
     },

@@ -1,8 +1,12 @@
 <template>
-    <div class="addMovie container">
-
-        <h1 class="page-header">添加电影</h1>
-        <el-form ref="MovieInfo" :model="MovieInfo" :rules="rules"  label-width="120px" label-position="right" >
+    <div class="updateMovie container">
+      <div class="rollback">
+        <el-button type="primary" icon="el-icon-d-arrow-left" plain @click="rollback">返回</el-button>
+        <!-- <router-link to="/movieInfo" type="primary"  icon="el-icon-caret-left">返回</router-link> -->
+      </div>
+        
+        <h1 class="page-header">修改电影</h1>
+        <el-form ref="MovieInfo" :model="MovieInfo" :rules="rules" v-loading.fullscreen.lock="loadingQuery" label-width="120px" label-position="right" >
             <div class="well">
                 <h4>电影信息</h4>
                 <el-form-item label="电影名字" prop="movieName"><el-input v-model.trim="MovieInfo.movieName"></el-input></el-form-item>
@@ -49,7 +53,7 @@
                 
                 
                 <el-form-item>
-                    <el-button type="primary" :loading="loading" @click="submitForm('MovieInfo')">立即添加</el-button>
+                    <el-button type="primary" :loading="loading" @click="submitForm('MovieInfo')">立即修改</el-button>
                     <el-button @click="resetForm('MovieInfo')">重置</el-button>
                 </el-form-item>
             </div>
@@ -59,7 +63,7 @@
 </template>
 <script>
 export default {
-  name: 'addMovie',
+  name: 'updateMovie',
   data () {
     return {
       MovieInfo:{
@@ -84,6 +88,7 @@ export default {
       moviePicture:"",
       fileAllData:[],
       loading:false,
+      loadingQuery:false,
       rules: {
         movieName: [
             { required: true, message: '请输入电影名字', trigger: 'blur' },
@@ -97,37 +102,37 @@ export default {
             {type: 'array', required: true, message: '请至少选择一个电影类型', trigger: 'change' }
         ],
         movieShowTime: [
-            { type: 'date', required: true, message: '请选择日期', trigger: 'change' }
+            
         ],
         movieWatchTime:[
 
         ],
       },
-      pickerOptions1: {
-          disabledDate(time) {
-            return time.getTime() > Date.now();
-          },
-          shortcuts: [{
-            text: '今天',
-            onClick(picker) {
-              picker.$emit('pick', new Date());
-            }
-          }, {
-            text: '昨天',
-            onClick(picker) {
-              const date = new Date();
-              date.setTime(date.getTime() - 3600 * 1000 * 24);
-              picker.$emit('pick', date);
-            }
-          }, {
-            text: '一周前',
-            onClick(picker) {
-              const date = new Date();
-              date.setTime(date.getTime() - 3600 * 1000 * 24 * 7);
-              picker.$emit('pick', date);
-            }
-          }]
-      },
+    pickerOptions1: {
+        disabledDate(time) {
+          return time.getTime() > Date.now();
+        },
+        shortcuts: [{
+          text: '今天',
+          onClick(picker) {
+            picker.$emit('pick', new Date());
+          }
+        }, {
+          text: '昨天',
+          onClick(picker) {
+            const date = new Date();
+            date.setTime(date.getTime() - 3600 * 1000 * 24);
+            picker.$emit('pick', date);
+          }
+        }, {
+          text: '一周前',
+          onClick(picker) {
+            const date = new Date();
+            date.setTime(date.getTime() - 3600 * 1000 * 24 * 7);
+            picker.$emit('pick', date);
+          }
+        }]
+    },
     }
   },
   methods:{
@@ -168,7 +173,6 @@ export default {
                   this.loading = false
               })
           } else {
-            
             this.$store.commit('SHOW_ERROR_TOAST', "信息不完整，无法添加")    
             this.loading = false
             return false;
@@ -195,6 +199,7 @@ export default {
             this.MovieInfo.movieWatchTime="";
             this.rules.movieWatchTime="";
           }else{
+            
             this.rules.movieWatchTime=[{ type: 'date', required: true, message: '请选择日期', trigger: 'change' }];
           }
       },
@@ -216,30 +221,46 @@ export default {
         if(this.MovieInfo.movieRelNames.length>1){
             this.isDisabled=false;
         }
-        //console.log(this.MovieInfo.movieRelNames);
+        
       },
       handleRemove(file, fileList) {
-        //console.log(file, fileList);
+       
         this.fileAllData=[];
       },
       handlePictureCardPreview(file) {
-        //console.log(file);
+        
         this.dialogImageUrl = file.url;
         this.dialogVisible = true;
         this.moviePicture=file.name;
       },
       // 文件上传
     uploadFile(params) {
-      //console.log("uploadFile", params);
-      //this.fileFormData.append('files',params.file);
       this.fileAllData.push(params.file);
     },
     changeMoviePicture(file, fileList){
-        //console.log(file);
+    },
+    rollback(){
+      this.$router.push({ path: '/movieInfo' });
+    },
+    //数据初始化
+    loadMovieData(id){
+      this.loadingQuery=true;
+      this.$http.get('/api/MovieDataShow/queryMovieDataByMovieId?movieId='+id).then(res => {
+            this.MovieInfo=res.body;
+            this.rules.movieShowTime=[{ type: 'date', required: true, message: '请选择日期', trigger: 'change' }];//这个校验必须放在加载之后再出现，否则会报错
+            this.changeMovieIsWatch(this.MovieInfo.movieIsWatch);//为了显示校验
+        }).catch((err) => {
+            this.$store.commit('SHOW_ERROR_TOAST', err.body.message);
+            //this.rollback();    
+        }).finally(() => {
+          this.loadingQuery=false;
+          this.loading = false
+        })
     }
   },
   mounted(){
       this.loadMovieType();
+      this.loadMovieData(this.$route.params.movieId);
   }
 }
 </script>
@@ -249,5 +270,9 @@ export default {
 /deep/ input[type=file]{
     display: none !important;
 }
+}
+.rollback{
+    margin:30px auto;
+    text-align:left;
 }
 </style>
