@@ -1,6 +1,6 @@
 <template>
     <div class="updateMovie container">
-      <el-page-header @back="goBack" content="详情页面"></el-page-header>
+      
       <div class="rollback">
         <el-button type="primary" icon="el-icon-d-arrow-left" plain @click="rollback">返回</el-button>
         <!-- <router-link to="/movieInfo" type="primary"  icon="el-icon-caret-left">返回</router-link> -->
@@ -260,7 +260,7 @@ export default {
             this.changeMovieIsWatch(this.MovieInfo.movieIsWatch);//为了显示校验
         }).catch((err) => {
             this.$store.commit('SHOW_ERROR_TOAST', err.body.message);
-            //this.rollback();    
+            this.rollback();    
         }).finally(() => {
           this.loadingQuery=false;
           this.loading = false

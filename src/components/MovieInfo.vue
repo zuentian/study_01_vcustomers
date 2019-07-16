@@ -1,14 +1,15 @@
 <template>
     <div class="movieInfo  container">
         <h1 class="page-header">电影信息</h1>
-        <el-table :data="movieInfo"   style="width: 100%" v-loading="loading" :row-style="{height:'0'}" :cell-style="{padding:'4px'}" :cell-class-name="changeColor">
+        <el-table :data="movieInfo"   style="width: 100%" v-loading="loading" :row-style="{height:'0'}" :cell-style="{padding:'4px'}" :cell-class-name="changeColor"
+                @row-click="movieDetailData">
             <el-table-column type="index" > </el-table-column>
             <el-table-column align="center" prop="movieName" label="电影名字" width="170"></el-table-column>
             <el-table-column align="center" prop="movieCountry" label="电影出品方国家" width="170"></el-table-column>
             <el-table-column align="center" prop="movieShowTime"  label="电影上映日期" width="170"></el-table-column> 
             <el-table-column align="center" prop="movieDBScore"  label="电影豆瓣评分" width="140" :formatter="movieDBScoreFormatter"></el-table-column>
             <el-table-column align="center" prop="movieIsWatch"  label="是否已观看" width="140" :formatter="movieIsWatchFormatter"></el-table-column>
-            <el-table-column align="center" prop="movieWatchTime"  label="观影时间" width="170" :formatter="movieWatchTimeFormatter"></el-table-column>
+            <el-table-column align="center" prop="movieWatchTime"  label="观影时间"  sortable width="170" :formatter="movieWatchTimeFormatter"></el-table-column>
             <el-table-column fixed="right" align="center" label="操作" width="100">
             <template slot-scope="scope">
                 <el-button @click="updateMovieData(scope.row)" type="text" size="small">编辑</el-button>
@@ -95,6 +96,9 @@ export default {
         },
         updateMovieData(row){
             this.$router.push({path: '/updateMovie/'+row.movieId});
+        },
+        movieDetailData(row, event, column){
+            this.$router.push({path:'/movieDetail/'+row.movieId});
         },
         changeColor({ row, column, rowIndex, columnIndex }){
             //console.log(row, column, rowIndex, columnIndex );
