@@ -156,7 +156,7 @@ export default {
                   }
               }
               fileFormData.set("movieRelNames",movieRelNamesAll);
-              this.$http.post("/api/MovieDataShow/addMovieData",fileFormData).then(res=>{
+              this.$http.post("/api/MovieDataShow/addMovieData1",fileFormData).then(res=>{
                 this.loading = false;
                 this.$notify({title: '添加成功',message: '',type: 'success'});
                 this.$router.push({ path: '/movieInfo' });
@@ -223,7 +223,7 @@ export default {
         this.fileAllData=[];
       },
       handlePictureCardPreview(file) {
-        //console.log(file);
+        console.log(file);
         this.dialogImageUrl = file.url;
         this.dialogVisible = true;
         this.moviePicture=file.name;

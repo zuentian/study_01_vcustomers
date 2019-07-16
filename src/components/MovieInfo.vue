@@ -1,7 +1,7 @@
 <template>
     <div class="movieInfo  container">
         <h1 class="page-header">电影信息</h1>
-        <el-table :data="movieInfo"  stripe style="width: 100%" v-loading="loading" :row-style="{height:'0'}" :cell-style="{padding:'4px'}">
+        <el-table :data="movieInfo"   style="width: 100%" v-loading="loading" :row-style="{height:'0'}" :cell-style="{padding:'4px'}" :cell-class-name="changeColor">
             <el-table-column type="index" > </el-table-column>
             <el-table-column align="center" prop="movieName" label="电影名字" width="170"></el-table-column>
             <el-table-column align="center" prop="movieCountry" label="电影出品方国家" width="170"></el-table-column>
@@ -47,15 +47,17 @@ export default {
     methods:{
         queryMovieInfo(currentPage,pageSize){
             this.loading = true;
+            //console.log(currentPage,pageSize);
             this.$http.post("/api/MovieDataShow/queryMovieInfo",{
                 page:currentPage,
                 pageSize:pageSize
             }).then(res=>{
                 this.movieInfo=res.body.list;
-                if(res.body.total>0){
+                //console.log(res.body.count);
+                if(res.body.count>0){
                     this.isShowPagination=true;
                 }
-                this.total=res.body.total;
+                this.total=res.body.count;
             }).catch(err=>{
                 this.$store.commit('SHOW_ERROR_TOAST', err.body.message || err.body)    
             }).finally(() => {
@@ -94,6 +96,17 @@ export default {
         updateMovieData(row){
             this.$router.push({path: '/updateMovie/'+row.movieId});
         },
+        changeColor({ row, column, rowIndex, columnIndex }){
+            //console.log(row, column, rowIndex, columnIndex );
+            if(rowIndex%3==0){
+                return "color1";
+            }else if(rowIndex%3==1){
+                return "color2";
+            }else if(rowIndex%3==2){
+                return "color3";
+            }
+
+        }
  
     },
     mounted(){
@@ -107,6 +120,21 @@ export default {
     margin:20px auto;
     text-align:center;
 }
+.movieInfo{//这个父级必须选择最外层的class
+/deep/ .color1{//deep和后面class名字要隔开
+  background: rgb(248, 206, 206) !important;
+
+}
+/deep/ .color2{
+  background: #f7a4ec !important;
+}
+/deep/ .color3{
+  background: #a1f3b5 !important;
+}
+}
+ 
+
+
 </style>
 
 

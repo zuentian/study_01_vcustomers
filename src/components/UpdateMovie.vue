@@ -1,10 +1,12 @@
 <template>
     <div class="updateMovie container">
+      <el-page-header @back="goBack" content="详情页面"></el-page-header>
       <div class="rollback">
         <el-button type="primary" icon="el-icon-d-arrow-left" plain @click="rollback">返回</el-button>
         <!-- <router-link to="/movieInfo" type="primary"  icon="el-icon-caret-left">返回</router-link> -->
       </div>
         
+
         <h1 class="page-header">修改电影</h1>
         <el-form ref="MovieInfo" :model="MovieInfo" :rules="rules" v-loading.fullscreen.lock="loadingQuery" label-width="120px" label-position="right" >
             <div class="well">
@@ -161,7 +163,7 @@ export default {
                   }
               }
               fileFormData.set("movieRelNames",movieRelNamesAll);
-              this.$http.post("/api/MovieDataShow/addMovieData",fileFormData).then(res=>{
+              this.$http.post("/api/MovieDataShow/updateMovieData",fileFormData).then(res=>{
                 this.loading = false;
                 this.$notify({title: '添加成功',message: '',type: 'success'});
                 this.$router.push({ path: '/movieInfo' });
@@ -242,12 +244,19 @@ export default {
     rollback(){
       this.$router.push({ path: '/movieInfo' });
     },
+    goBack(){
+
+    },
     //数据初始化
     loadMovieData(id){
       this.loadingQuery=true;
       this.$http.get('/api/MovieDataShow/queryMovieDataByMovieId?movieId='+id).then(res => {
+            
             this.MovieInfo=res.body;
             this.rules.movieShowTime=[{ type: 'date', required: true, message: '请选择日期', trigger: 'change' }];//这个校验必须放在加载之后再出现，否则会报错
+            if(this.MovieInfo.movieRelNames==null){
+              this.MovieInfo.movieRelNames=[{movieRelName: ''}];//给个默认值
+            }
             this.changeMovieIsWatch(this.MovieInfo.movieIsWatch);//为了显示校验
         }).catch((err) => {
             this.$store.commit('SHOW_ERROR_TOAST', err.body.message);
