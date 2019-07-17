@@ -190,6 +190,7 @@ export default {
       loadMovieType(){
         this.$http.post('/api/MovieDataShow/queryMovieType').then(res => {
             this.selectMovieTypes=res.body;
+           
         }).catch((err) => {
             this.$store.commit('SHOW_ERROR_TOAST', "电影类型获取失败")        
         }).finally(() => {
@@ -251,7 +252,7 @@ export default {
     loadMovieData(id){
       this.loadingQuery=true;
       this.$http.get('/api/MovieDataShow/queryMovieDataByMovieId?movieId='+id).then(res => {
-            
+             cosole.log(res.body);
             this.MovieInfo=res.body;
             this.rules.movieShowTime=[{ type: 'date', required: true, message: '请选择日期', trigger: 'change' }];//这个校验必须放在加载之后再出现，否则会报错
             if(this.MovieInfo.movieRelNames==null){

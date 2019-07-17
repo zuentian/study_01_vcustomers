@@ -34,6 +34,9 @@ export default {
     },methods:{
         handleBeforeUpload(file){
             console.log(file);
+            let fileReader=new FileReader();
+            fileReader.readAsDataURL(file);
+            console.log(file);
             this.fileData.filename=file.name;
             this.fileData.filesize=file.size;
             this.fileData.filetype=file.type;
