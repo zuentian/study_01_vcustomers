@@ -245,19 +245,18 @@ export default {
     rollback(){
       this.$router.push({ path: '/movieInfo' });
     },
-    goBack(){
-
-    },
     //数据初始化
     loadMovieData(id){
       this.loadingQuery=true;
-      this.$http.get('/api/MovieDataShow/queryMovieDataByMovieId?movieId='+id).then(res => {
-             cosole.log(res.body);
-            this.MovieInfo=res.body;
+      this.$http.post('/api/MovieDataShow/queryMovieDataByMovieId',{
+        movieId:id
+      }).then(res => {
+            console.log(res);
+            this.MovieInfo=res.body.list;
             this.rules.movieShowTime=[{ type: 'date', required: true, message: '请选择日期', trigger: 'change' }];//这个校验必须放在加载之后再出现，否则会报错
             if(this.MovieInfo.movieRelNames==null){
-              this.MovieInfo.movieRelNames=[{movieRelName: ''}];//给个默认值
-            }
+               this.MovieInfo.movieRelNames=[{movieRelName: ''}];//给个默认值
+             }
             this.changeMovieIsWatch(this.MovieInfo.movieIsWatch);//为了显示校验
         }).catch((err) => {
             this.$store.commit('SHOW_ERROR_TOAST', err.body.message);
