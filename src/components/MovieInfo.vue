@@ -49,7 +49,7 @@ export default {
         queryMovieInfo(currentPage,pageSize){
             this.loading = true;
             //console.log(currentPage,pageSize);
-            this.$http.post("/api/MovieDataShow/queryMovieInfo",{
+            this.$http.post(this.HOST+"/MovieDataShow/queryMovieInfo",{
                 page:currentPage,
                 pageSize:pageSize
             }).then(res=>{

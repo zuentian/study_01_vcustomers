@@ -29,6 +29,7 @@ Vue.use(ElementUI);
 Vue.use(Vuex)
 Vue.prototype.$echarts=echarts
 
+Vue.prototype.HOST = '/api'
 //设置路由
 const router =new VueRouter({
   mode:"history",//去掉#

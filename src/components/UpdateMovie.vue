@@ -47,6 +47,7 @@
                     :http-request="uploadFile" 
                     :auto-upload="false"
                     :on-change="changeMoviePicture"
+                    :file-list="fileLists"
                     >
                     <i class="el-icon-plus"></i>
                     </el-upload>
@@ -83,6 +84,7 @@ export default {
           }],
           
       },
+      fileLists:[],
       selectMovieTypes:"",
       isDisabled:true,
       dialogVisible: false,
@@ -231,6 +233,7 @@ export default {
         this.fileAllData=[];
       },
       handlePictureCardPreview(file) {
+        //console.log(file);
         
         this.dialogImageUrl = file.url;
         this.dialogVisible = true;
@@ -241,6 +244,8 @@ export default {
       this.fileAllData.push(params.file);
     },
     changeMoviePicture(file, fileList){
+      //console.log("changeMoviePicture",file);
+      //console.log("changeMoviePicture",fileList)
     },
     rollback(){
       this.$router.push({ path: '/movieInfo' });
@@ -258,6 +263,7 @@ export default {
                this.MovieInfo.movieRelNames=[{movieRelName: ''}];//给个默认值
              }
             this.changeMovieIsWatch(this.MovieInfo.movieIsWatch);//为了显示校验
+            this.fileLists=[{name:'test.jpg',url:'/file/images/2019/07/18/e989b073-746d-46dc-8ec2-38658c20dc4a.jpg'}];
         }).catch((err) => {
             this.$store.commit('SHOW_ERROR_TOAST', err.body.message);
             this.rollback();    
