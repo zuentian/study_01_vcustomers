@@ -216,26 +216,21 @@ export default {
         if(this.MovieInfo.movieRelNames.length>1){
             this.isDisabled=false;
         }
-        //console.log(this.MovieInfo.movieRelNames);
       },
       handleRemove(file, fileList) {
-        //console.log(file, fileList);
         this.fileAllData=[];
       },
       handlePictureCardPreview(file) {
-        console.log(file);
+        
         this.dialogImageUrl = file.url;
         this.dialogVisible = true;
         this.moviePicture=file.name;
       },
       // 文件上传
     uploadFile(params) {
-      //console.log("uploadFile", params);
-      //this.fileFormData.append('files',params.file);
       this.fileAllData.push(params.file);
     },
     changeMoviePicture(file, fileList){
-        //console.log(file);
     }
   },
   mounted(){

@@ -70,6 +70,7 @@ export default {
   data () {
     return {
       MovieInfo:{
+          movieId:"",
           movieName:"",
           movieEnglishName:"",
           movieCountry:"",
@@ -171,7 +172,7 @@ export default {
                 this.$router.push({ path: '/movieInfo' });
                 
               }).catch(err=>{
-                  console.log(err);
+                  this.$store.commit('SHOW_ERROR_TOAST', err.body.message);  
                   this.fileAllData=[];
               }).finally(() => {
                   this.loading = false
@@ -204,7 +205,6 @@ export default {
             this.MovieInfo.movieWatchTime="";
             this.rules.movieWatchTime="";
           }else{
-            
             this.rules.movieWatchTime=[{ type: 'date', required: true, message: '请选择日期', trigger: 'change' }];
           }
       },
@@ -233,8 +233,6 @@ export default {
         this.fileAllData=[];
       },
       handlePictureCardPreview(file) {
-        //console.log(file);
-        
         this.dialogImageUrl = file.url;
         this.dialogVisible = true;
         this.moviePicture=file.name;
@@ -244,26 +242,29 @@ export default {
       this.fileAllData.push(params.file);
     },
     changeMoviePicture(file, fileList){
-      //console.log("changeMoviePicture",file);
-      //console.log("changeMoviePicture",fileList)
+      
     },
     rollback(){
       this.$router.push({ path: '/movieInfo' });
     },
     //数据初始化
     loadMovieData(id){
+      this.MovieInfo.movieId=id;
       this.loadingQuery=true;
       this.$http.post('/api/MovieDataShow/queryMovieDataByMovieId',{
         movieId:id
       }).then(res => {
-            console.log(res);
             this.MovieInfo=res.body.list;
             this.rules.movieShowTime=[{ type: 'date', required: true, message: '请选择日期', trigger: 'change' }];//这个校验必须放在加载之后再出现，否则会报错
             if(this.MovieInfo.movieRelNames==null){
                this.MovieInfo.movieRelNames=[{movieRelName: ''}];//给个默认值
+             }else if(this.MovieInfo.movieRelNames.length>1){
+               this.isDisabled=false;//当电影相关人物大于一条的时候，删除按钮不能置灰
              }
             this.changeMovieIsWatch(this.MovieInfo.movieIsWatch);//为了显示校验
-            this.fileLists=[{name:'test.jpg',url:'/file/images/2019/07/18/e989b073-746d-46dc-8ec2-38658c20dc4a.jpg'}];
+            this.fileLists=this.MovieInfo.files;
+            this.MovieInfo.movieShowTime=new Date(res.body.list.movieShowTime);
+            this.MovieInfo.movieWatchTime=new Date(res.body.list.movieWatchTime);
         }).catch((err) => {
             this.$store.commit('SHOW_ERROR_TOAST', err.body.message);
             this.rollback();    
