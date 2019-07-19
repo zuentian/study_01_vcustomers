@@ -168,7 +168,7 @@ export default {
               fileFormData.set("movieRelNames",movieRelNamesAll);
               this.$http.post("/api/MovieDataShow/updateMovieData",fileFormData).then(res=>{
                 this.loading = false;
-                this.$notify({title: '添加成功',message: '',type: 'success'});
+                this.$notify({title: '修改成功',message: '',type: 'success'});
                 this.$router.push({ path: '/movieInfo' });
                 
               }).catch(err=>{
