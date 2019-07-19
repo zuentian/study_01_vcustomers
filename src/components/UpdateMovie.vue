@@ -206,6 +206,7 @@ export default {
             this.rules.movieWatchTime="";
           }else{
             this.rules.movieWatchTime=[{ type: 'date', required: true, message: '请选择日期', trigger: 'change' }];
+            
           }
       },
       removeMovieRelName(item) {
@@ -264,7 +265,9 @@ export default {
             this.changeMovieIsWatch(this.MovieInfo.movieIsWatch);//为了显示校验
             this.fileLists=this.MovieInfo.files;
             this.MovieInfo.movieShowTime=new Date(res.body.list.movieShowTime);
-            this.MovieInfo.movieWatchTime=new Date(res.body.list.movieWatchTime);
+            if(this.MovieInfo.movieIsWatch==true){
+               this.MovieInfo.movieWatchTime=new Date(res.body.list.movieWatchTime);
+            }
         }).catch((err) => {
             this.$store.commit('SHOW_ERROR_TOAST', err.body.message);
             this.rollback();    
