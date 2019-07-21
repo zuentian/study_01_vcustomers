@@ -1,6 +1,6 @@
 <template>
     <div class="movieInfo  container">
-        <h1 class="page-header">电影信息</h1>
+        <h1 class="page-header">电影总览</h1>
         <el-table :data="movieInfo"   style="width: 100%" v-loading="loading" :row-style="{height:'0'}" :cell-style="{padding:'4px'}" :cell-class-name="changeColor"
                 @row-click="movieDetailData">
             <el-table-column type="index" > </el-table-column>

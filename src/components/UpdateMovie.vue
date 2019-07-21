@@ -142,7 +142,7 @@ export default {
   },
   methods:{
       submitForm(formName) {
-        this.fileAllData=[];
+        //this.fileAllData=[];
         this.loading=true;
         this.$refs[formName].validate((valid) => {
           if (valid) {
@@ -166,6 +166,13 @@ export default {
                   }
               }
               fileFormData.set("movieRelNames",movieRelNamesAll);
+              //不需要删除图片的路径
+              let moviePictureNotDelete=[];
+              //console.log(this.fileLists)
+              for(var i=0;i<this.fileLists.length;i++){
+                moviePictureNotDelete.push(this.fileLists[i].url);
+              }
+              fileFormData.set("moviePictureNotDelete",moviePictureNotDelete);
               this.$http.post("/api/MovieDataShow/updateMovieData",fileFormData).then(res=>{
                 this.loading = false;
                 this.$notify({title: '修改成功',message: '',type: 'success'});
@@ -230,8 +237,9 @@ export default {
         
       },
       handleRemove(file, fileList) {
-       
         this.fileAllData=[];
+        this.fileLists=fileList;//删除一个图片的时候原有的图片列表数据也要删除
+        
       },
       handlePictureCardPreview(file) {
         this.dialogImageUrl = file.url;
@@ -246,7 +254,8 @@ export default {
       
     },
     rollback(){
-      this.$router.push({ path: '/movieInfo' });
+      //this.$router.push({ path: '/movieInfo' });
+      this.$router.go(-1);
     },
     //数据初始化
     loadMovieData(id){

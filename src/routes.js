@@ -11,6 +11,7 @@ import AddMovie from './components/AddMovie.vue'
 import MovieInfo from './components/MovieInfo.vue'
 import UpdateMovie from './components/UpdateMovie.vue'
 import MovieDetail from './components/MovieDetail.vue'
+import MoviePicture from './components/MoviePicture.vue'
 export default[
     {path:"/",component:Customers},
     {path:"/login",component:Login},
@@ -25,4 +26,5 @@ export default[
     {path:"/movieInfo",component:MovieInfo},
     {path:"/updateMovie/:movieId",component:UpdateMovie},
     {path:"/movieDetail/:movieId",component:MovieDetail},
+    {path:"/moviePicture/:movieId",component:MoviePicture},
 ]
