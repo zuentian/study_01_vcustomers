@@ -12,22 +12,6 @@
           </el-row>
           <el-row :gutter="20"> 
             <span v-for="(item,index) in moviePictureInfoBase" :key="index">
-                     <!-- <el-col :span="4"  overflow="left">  -->
-                  <!--                 <el-col :span="4" style="height:100px;overflow:hidden" >  -->
-                    <!-- <div style="width:150px;height:200px;float:left" >  -->
-                      <!-- <div>
-                      
-                    <img   @click="handlePictureCardPreview(item.name,item.url)"  style="width: 100%; height: auto; " :src="item.url" class="image">
-                      <p  align="center">{{ item.name}}</p>
-                      </div>
-                      <div>
-                       
-                      </div>
-                     -->
-                    
-                    <!-- </div>   -->
-                    
-                     <!-- </el-col>  -->
                     <el-col :span="4">
                      <div class="outer">
                       <img   @click="handlePictureCardPreview(item.name,item.url)"  :src="item.url" class="image">
