@@ -20,8 +20,16 @@
                     </el-col> 
             </span>
             <el-dialog  :title="moviePictureName" :visible.sync="dialogVisible" size="tiny"><img width="100%" height="100%" :src="dialogImageUrl" alt=""></el-dialog>
-          </el-row>
           
+          </el-row>
+           <div  class="block" text-align="center">
+            <el-pagination 
+                layout=" prev, pager, next, jumper"
+                @current-change="handleCurrentChange" 
+                :current-page="currentPage"
+                :total="total">
+            </el-pagination>
+        </div>
         </li>
     </ul>
   </div>
@@ -35,25 +43,35 @@ export default {
   name: 'moviePicture',
   data () {
     return {
+      movieId:"",
       moviePictureInfoBase:[],
       movieName:"",
       dialogImageUrl:"",
       dialogVisible:false,
       moviePictureName:"",
+      currentPage:1,
+      pageSize:18,
+      total:0,
     }
   },
   methods:{
-      queryMoviePictureDetail(id){
+      queryMoviePictureDetail(currentPage,pageSize){
         const loading = this.$loading({
           lock: true,
           text: '拼命加载中',
           spinner: 'el-icon-loading',
           background: 'rgba(0, 0, 0, 0.7)'
         });
-        this.$http.get('/api/MovieDataShow/queryMoviePictureDetail?movieId='+id).then(res => {
+        this.$http.post('/api/MovieDataShow/queryMoviePictureDetail',{
+          movieId:this.movieId,
+          pageSize:pageSize,
+          currentPage:currentPage,
+
+        }).then(res => {
             console.log(res.body);
-            this.moviePictureInfoBase=res.body.moviePictureInfoBase;
+            this.moviePictureInfoBase=res.body.pageInfo.list;
             this.movieName=res.body.movieName;
+            this.total=res.body.pageInfo.total;
         }).catch((err) => {
             this.$store.commit('SHOW_ERROR_TOAST', err.body.message);
             //this.rollback();    
@@ -69,9 +87,15 @@ export default {
         this.dialogVisible = true;
         this.moviePictureName=name;
     },
+    handleCurrentChange(val){
+      this.currentPage=val;
+      this.queryMoviePictureDetail(val,this.pageSize);
+    }
   },
+
   created(){
-      this.queryMoviePictureDetail(this.$route.params.movieId);
+      this.movieId=this.$route.params.movieId;
+      this.queryMoviePictureDetail(this.currentPage,this.pageSize);
   }
 }
 </script>
@@ -80,6 +104,10 @@ export default {
 .moviePicture{
     margin:22px auto;
     
+}
+.block{
+    margin:20px auto;
+    text-align:center;
 }
 /* img{
     width: 80px;
