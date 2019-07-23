@@ -231,7 +231,7 @@ export default {
             this.MovieInfo.movieWatchTime=res.body.movieWatchTime;
             this.moviePictureInfo=res.body.moviePictureInfoBase;
             this.moviePictureInfoBaseCount=res.body.moviePictureInfoBaseCount;
-            console.log(res.body);
+            //console.log(res.body);
         }).catch((err) => {
             this.$store.commit('SHOW_ERROR_TOAST', err.body.message);
             this.rollback();    

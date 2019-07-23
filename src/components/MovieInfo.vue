@@ -2,7 +2,7 @@
     <div class="movieInfo  container">
         <h1 class="page-header">电影总览</h1>
         <el-table :data="movieInfo"   style="width: 100%" v-loading="loading" :row-style="{height:'0'}" :cell-style="{padding:'4px'}" :cell-class-name="changeColor"
-                @row-click="movieDetailData">
+                @row-dblclick="movieDetailData">
             <el-table-column type="index" > </el-table-column>
             <el-table-column align="center" prop="movieName" label="电影名字" width="170"></el-table-column>
             <el-table-column align="center" prop="movieCountry" label="电影出品方国家" width="170"></el-table-column>
@@ -12,8 +12,8 @@
             <el-table-column align="center" prop="movieWatchTime"  label="观影时间"  sortable width="170" :formatter="movieWatchTimeFormatter"></el-table-column>
             <el-table-column fixed="right" align="center" label="操作" width="100">
             <template slot-scope="scope">
-                <el-button @click="updateMovieData(scope.row)" type="text" size="small">编辑</el-button>
-                <!-- <el-button type="text" size="small">删除</el-button> -->
+                <el-button @click="updateMovieData(scope.row)"   @click.stop="updateMovieDataVisible = true" type="text" size="small">编辑</el-button>
+                <el-button type="text" size="small" @click.stop="deleteMovieDataVisible = true" @click="deleteMovieData(scope.row)">删除</el-button>
             </template>
             </el-table-column>
         </el-table>
@@ -98,6 +98,7 @@ export default {
             this.$router.push({path: '/updateMovie/'+row.movieId});
         },
         movieDetailData(row, event, column){
+
             this.$router.push({path:'/movieDetail/'+row.movieId});
         },
         changeColor({ row, column, rowIndex, columnIndex }){
@@ -110,6 +111,35 @@ export default {
                 return "color3";
             }
 
+        },
+        deleteMovieData(row) {
+            this.$confirm('此操作将永久删除该电影信息, 是否继续?', '提示', {
+            confirmButtonText: '确定',
+            cancelButtonText: '取消',
+            type: 'warning'
+            }).then(() => {
+                this.loading = true;
+                console.log("movieId",row.movieId);
+                this.$http.post('/api/MovieDataShow/deleteMoviDetailByMovieId',{
+                    movieId:row.movieId,
+                }).then(res => {
+                    this.$message({
+                        type: 'success',
+                        message: '删除成功!'
+                    });
+                    this.queryMovieInfo(this.currentPage,this.pageSize);
+                }).catch((err) => {
+                    this.$store.commit('SHOW_ERROR_TOAST', err.body.message);  
+                }).finally(() => {
+                   this.loading = false
+                })
+                
+            }).catch(() => {
+                this.$message({
+                    type: 'info',
+                    message: '已取消删除'
+                });          
+            });
         }
  
     },

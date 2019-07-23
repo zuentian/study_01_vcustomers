@@ -7,7 +7,7 @@
         <li class="list-group-item">
           <el-row > 
             <el-col :span="20">
-               <span style="color:#111213e8;font-size:18px"><strong>{{movieName}}的全部海报和图片……(共{{moviePictureInfoBase.length}}张)</strong></span>
+               <span style="color:#111213e8;font-size:18px"><strong>{{movieName}}的全部海报和图片……(共{{this.total}}张)</strong></span>
             </el-col>
           </el-row>
           <el-row :gutter="20"> 
@@ -27,6 +27,7 @@
                 layout=" prev, pager, next, jumper"
                 @current-change="handleCurrentChange" 
                 :current-page="currentPage"
+                :page-size="pageSize"
                 :total="total">
             </el-pagination>
         </div>
@@ -68,7 +69,7 @@ export default {
           currentPage:currentPage,
 
         }).then(res => {
-            console.log(res.body);
+            //console.log(res.body);
             this.moviePictureInfoBase=res.body.pageInfo.list;
             this.movieName=res.body.movieName;
             this.total=res.body.pageInfo.total;
