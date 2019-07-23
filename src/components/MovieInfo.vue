@@ -1,6 +1,69 @@
 <template>
     <div class="movieInfo  container">
         <h1 class="page-header">电影总览</h1>
+
+         <ul class="list-group">
+          <li class="list-group-item">
+            <el-row :gutter="10">
+              <el-col  :span="2" style="text-align:center">
+                  <span style="line-height:30px;font-size:16px;font-family:微软雅黑">电影名字：</span>
+              </el-col>
+              <el-col :span="5" >
+                  <el-input v-model="movieName" clearable  size="small"></el-input>
+              </el-col>
+              <el-col  :span="2" style="text-align:center">
+                  <span style="line-height:30px;font-size:16px;font-family:微软雅黑">电影上映：</span>
+              </el-col>
+              <el-col :span="8">
+                   <el-date-picker  v-model="movieShowTimeStartAndEnd" size="small" type="daterange" start-placeholder="开始日期" end-placeholder="结束日期" :default-value="new Date()">  </el-date-picker>
+              </el-col>
+              <el-col  :span="2" style="text-align:center">
+                  <span style="line-height:30px;font-size:16px;font-family:微软雅黑;text-align:center">豆瓣评分：</span>
+              </el-col>
+              <el-col :span="2">
+                  <el-input v-model="movieDBScoreStart" clearable  size="small"></el-input>
+              </el-col>
+              <el-col :span="1" style="width:37px;text-align:center">
+                 <span style="line-height:30px;font-size:16px;font-family:微软雅黑;text-align:center">~</span>
+              </el-col>
+              <el-col :span="2">
+                  <el-input v-model="movieDBScoreEnd" clearable  size="small"></el-input>
+              </el-col>
+            </el-row>
+            <el-row :gutter="10">
+              <el-col  :span="2" style="text-align:center">
+                  <span style="line-height:30px;font-size:16px;font-family:微软雅黑">出品地名：</span>
+              </el-col>
+              <el-col :span="5" >
+                  <el-input v-model="movieCountry" clearable  size="small"></el-input>
+              </el-col>
+              <el-col  :span="2" style="text-align:center">
+                  <span style="line-height:30px;font-size:16px;font-family:微软雅黑">电影观影：</span>
+              </el-col>
+              <el-col :span="8">
+                   <el-date-picker  v-model="movieWatchTimeStartAndEnd" size="small" type="daterange" start-placeholder="开始日期" end-placeholder="结束日期" :default-value="new Date()">  </el-date-picker>
+              </el-col>
+              <el-col  :span="2" style="text-align:center">
+                  <span style="line-height:30px;font-size:16px;font-family:微软雅黑">是否观看：</span>
+              </el-col>
+              <el-col :span="5" >
+                  <el-select v-model="movieIsWatch" placeholder="请选择" size="small"> <el-option  v-for="item in options" :key="item.value"  :label="item.label"  :value="item.value"></el-option></el-select>
+              </el-col>
+            </el-row>
+            
+            <el-row :gutter="20">
+              <el-col  :span="12" style="text-align:center">
+                <el-button type="info" icon="el-icon-refresh"  @click="reset">重置</el-button>
+              </el-col>
+              <el-col  :span="4" style="text-align:center">
+                <el-button type="primary" icon="el-icon-search" @click="query">搜索</el-button>
+              </el-col>
+            </el-row>
+            
+          </li>
+         </ul>
+
+
         <el-table :data="movieInfo"   style="width: 100%" v-loading="loading" :row-style="{height:'0'}" :cell-style="{padding:'4px'}" :cell-class-name="changeColor"
                 @row-dblclick="movieDetailData">
             <el-table-column type="index" > </el-table-column>
@@ -43,15 +106,32 @@ export default {
             isShowPagination:false,
             currentPage:1,
             pageSize:10,
+            movieName:"",
+            movieShowTimeStartAndEnd:"",
+            movieDBScoreStart:"",
+            movieDBScoreEnd:"",
+            movieWatchTimeStartAndEnd:"",
+            movieCountry:"",
+            options: [{value: 'true',label: '是'}, {value: 'false',label: '否'}],
+            movieIsWatch: '',
+
         }
     },
     methods:{
-        queryMovieInfo(currentPage,pageSize){
+        queryMovieInfo(){
             this.loading = true;
             //console.log(currentPage,pageSize);
+            
             this.$http.post(this.HOST+"/MovieDataShow/queryMovieInfo",{
-                page:currentPage,
-                pageSize:pageSize
+                page:this.currentPage,
+                pageSize:this.pageSize,
+                movieName:this.movieName,
+                movieShowTimeStartAndEnd:this.movieShowTimeStartAndEnd,
+                movieDBScoreStart:this.movieDBScoreStart,
+                movieDBScoreEnd:this.movieDBScoreEnd,
+                movieWatchTimeStartAndEnd:this.movieWatchTimeStartAndEnd,
+                movieCountry:this.movieCountry,
+                movieIsWatch:this.movieIsWatch,
             }).then(res=>{
                 this.movieInfo=res.body.list;
                 //console.log(res.body.count);
@@ -88,11 +168,11 @@ export default {
         },
         handleSizeChange(val) {
             this.pageSize=val;
-            this.queryMovieInfo(this.currentPage,val);
+            this.queryMovieInfo();
         },
         handleCurrentChange(val) {
             this.currentPage=val;
-            this.queryMovieInfo(val,this.pageSize);
+            this.queryMovieInfo();
         },
         updateMovieData(row){
             this.$router.push({path: '/updateMovie/'+row.movieId});
@@ -127,7 +207,7 @@ export default {
                         type: 'success',
                         message: '删除成功!'
                     });
-                    this.queryMovieInfo(this.currentPage,this.pageSize);
+                    this.queryMovieInfo();
                 }).catch((err) => {
                     this.$store.commit('SHOW_ERROR_TOAST', err.body.message);  
                 }).finally(() => {
@@ -140,12 +220,25 @@ export default {
                     message: '已取消删除'
                 });          
             });
+        },
+        query(){
+            this.queryMovieInfo();
+        },
+        reset(){
+            this.movieName="";
+            this.movieShowTimeStartAndEnd="";
+            this.movieDBScoreStart="";
+            this.movieDBScoreEnd="";
+            this.movieWatchTimeStartAndEnd="";
+            this.movieCountry="";
+            this.movieIsWatch="";
         }
  
     },
     mounted(){
-        this.queryMovieInfo(this.currentPage,this.pageSize);
-    }
+        this.queryMovieInfo();
+    },
+    
 }
 </script>
 
@@ -167,8 +260,17 @@ export default {
 }
 }
  
-
-
+.el-row {
+    margin-bottom: 10px;
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+  
+.el-col {
+  border-radius: 4px;
+}
+ 
 </style>
 
 
