@@ -178,7 +178,7 @@
             </el-carousel>
           </li>
       </ul>
-      
+<!--       
   <el-backtop target=".navbar   .movieDetail" style="right: 40px; bottom: 100px;">
     <div
       style="{
@@ -193,7 +193,7 @@
     >
       UP
     </div>
-    </el-backtop>
+    </el-backtop> -->
 </div>
 </template>
 
