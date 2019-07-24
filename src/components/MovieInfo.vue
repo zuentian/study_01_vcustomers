@@ -91,7 +91,8 @@
                 :total="total">
             </el-pagination>
         </div>
-        
+        <el-divider></el-divider>
+        <el-button type="primary" @click="queryMovieReport" icon="el-icon-collection">查看电影报告</el-button>
     </div>
 </template>
 
@@ -245,6 +246,9 @@ export default {
             this.movieWatchTimeStartAndEnd="";
             this.movieCountry="";
             this.movieIsWatch="";
+        },
+        queryMovieReport(){
+              this.$router.push({path: '/movieReport/'});
         }
  
     },
