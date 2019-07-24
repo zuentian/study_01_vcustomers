@@ -15,7 +15,7 @@
                   <span style="line-height:30px;font-size:16px;font-family:微软雅黑">电影上映：</span>
               </el-col>
               <el-col :span="8">
-                   <el-date-picker  v-model="movieShowTimeStartAndEnd" size="small" type="daterange" start-placeholder="开始日期" end-placeholder="结束日期" :default-value="new Date()">  </el-date-picker>
+                   <el-date-picker  v-model="movieShowTimeStartAndEnd" size="small" type="daterange" value-format="yyyy-MM-dd" start-placeholder="开始日期" end-placeholder="结束日期" :default-value="new Date()">  </el-date-picker>
               </el-col>
               <el-col  :span="2" style="text-align:center">
                   <span style="line-height:30px;font-size:16px;font-family:微软雅黑;text-align:center">豆瓣评分：</span>
@@ -41,13 +41,13 @@
                   <span style="line-height:30px;font-size:16px;font-family:微软雅黑">电影观影：</span>
               </el-col>
               <el-col :span="8">
-                   <el-date-picker  v-model="movieWatchTimeStartAndEnd" size="small" type="daterange" start-placeholder="开始日期" end-placeholder="结束日期" :default-value="new Date()">  </el-date-picker>
+                   <el-date-picker  v-model="movieWatchTimeStartAndEnd" size="small" type="daterange"  value-format="yyyy-MM-dd"  start-placeholder="开始日期" end-placeholder="结束日期" :default-value="new Date()">  </el-date-picker>
               </el-col>
               <el-col  :span="2" style="text-align:center">
                   <span style="line-height:30px;font-size:16px;font-family:微软雅黑">是否观看：</span>
               </el-col>
               <el-col :span="5" >
-                  <el-select v-model="movieIsWatch" placeholder="请选择" size="small"> <el-option  v-for="item in options" :key="item.value"  :label="item.label"  :value="item.value"></el-option></el-select>
+                  <el-select v-model="movieIsWatch" placeholder="请选择" clearable  size="small"> <el-option  v-for="item in options" :key="item.value"  :label="item.label"  :value="item.value"></el-option></el-select>
               </el-col>
             </el-row>
             
@@ -121,15 +121,28 @@ export default {
         queryMovieInfo(){
             this.loading = true;
             //console.log(currentPage,pageSize);
-            
+            let movieShowTimeStart="";
+            let movieShowTimeEnd="";
+             if(this.movieShowTimeStartAndEnd!=null){
+                 movieShowTimeStart=this.movieShowTimeStartAndEnd[0];
+                 movieShowTimeEnd=this.movieShowTimeStartAndEnd[1];
+             }
+            let movieWatchTimeStart="";
+            let movieWatchTimeEnd="";
+            if(this.movieWatchTimeStartAndEnd!=null){
+                 movieWatchTimeStart=this.movieWatchTimeStartAndEnd[0];
+                 movieWatchTimeEnd=this.movieWatchTimeStartAndEnd[1];
+             }
             this.$http.post(this.HOST+"/MovieDataShow/queryMovieInfo",{
                 page:this.currentPage,
                 pageSize:this.pageSize,
                 movieName:this.movieName,
-                movieShowTimeStartAndEnd:this.movieShowTimeStartAndEnd,
+                movieShowTimeStart:movieShowTimeStart,
+                movieShowTimeEnd:movieShowTimeEnd,
                 movieDBScoreStart:this.movieDBScoreStart,
                 movieDBScoreEnd:this.movieDBScoreEnd,
-                movieWatchTimeStartAndEnd:this.movieWatchTimeStartAndEnd,
+                movieWatchTimeStart:movieWatchTimeStart,
+                movieWatchTimeEnd:movieWatchTimeEnd,
                 movieCountry:this.movieCountry,
                 movieIsWatch:this.movieIsWatch,
             }).then(res=>{
