@@ -1,6 +1,8 @@
 <template>
   <div class="movieReport container">
-    
+      <div class="button">
+        <el-button class="rollback" type="primary" icon="el-icon-d-arrow-left" plain @click="rollback">返回</el-button>
+      </div>
       <div  id='movieTypeCount'  :style="{width:'100%',height:'400%'}" >
       </div>
       <div id="movieCountryCount" :style="{width:'100%',height:'400%'}">
@@ -36,6 +38,7 @@ export default {
       movieTypeData:"",
       selectMovieTypeNowIndex:-1,
       selectMovieTypeBeforeIndex:-1,
+      movieCountryData:"",
     }
   },
   methods:{
@@ -45,6 +48,7 @@ export default {
       movieTypeCountChart.setOption({
         title: {
                   text: '电影类型数量占比图(单位：部)',
+                  subtext: '数量排行前五名',
                   left:'center',//这个是让标题居中，很奇怪！！！
                   textStyle :{
                       fontSize  :24,
@@ -79,7 +83,7 @@ export default {
               series:[{
                   name:'电影类型',
                   type: 'pie',
-                  radius: '55%',
+                  radius: '50%',
                   center: ['50%', '60%'],
                   //roseType: 'angle',
                   data:this.movieTypeData,
@@ -87,7 +91,7 @@ export default {
                       normal: {
                       show: true,
                       textStyle: {
-                          fontSize: 20,
+                          fontSize: 15,
                           fontStyle :'normal',
                           fontFamily :'Microsoft YaHei'
                         }
@@ -162,18 +166,33 @@ export default {
         legend: {
           orient : 'vertical',
           x : 'right',
-          data:["直接访问"],
+          data:this.movieCountryData.name,
         },
         calculable:true,
         series : [{
             name:'电影出品地',
             type:'pie',
             radius : [20, 110],
-            center : ['50%', '50%'],
+            center : ['50%', '60%'],
             roseType : 'radius',
             width: '40%',       // for funnel
             max: 40, 
-            data:[]
+            data:[],
+            label: {
+                normal: {
+                show: true,
+                textStyle: {
+                    fontSize: 15,
+                    fontStyle :'normal',
+                    fontFamily :'Microsoft YaHei'
+                  }
+                },
+            },
+            labelLine: {
+                    lineStyle: {
+                    },
+                    length:50 
+            },
         }]
       })
       movieCountryChart.showLoading();
@@ -181,10 +200,11 @@ export default {
       ).then(function(response){
 
         console.log(response);
+        this.movieCountryData=response.body.data;
         movieCountryChart.hideLoading();
         movieCountryChart.setOption({
           series : [{
-            data:[{value:335, name:'直接访问'}]
+            data:this.movieCountryData
           }]
         })
 
@@ -198,7 +218,10 @@ export default {
 
 
 
-    }
+    },
+    rollback(){
+       this.$router.push({ path: '/movieInfo' });
+    },
   },
   mounted(){
     this.drawLineMovieType();

@@ -47,12 +47,13 @@ import UpdateMovie from './components/UpdateMovie'
 import MovieDetail from './components/MovieDetail'
 import MoviePicture from './components/MoviePicture'
 import MovieReport from './components/MovieReport'
+import MovieReport1 from './components/MovieReport1'
 export default {
   name: 'App',
   components: {
     Customers,About,Add,CustomerDetails,Edit,
     AddressListAdd,UpdownFile,EchartsShow,AddMovie,MovieInfo,
-    UpdateMovie,MovieDetail,MoviePicture,MovieReport//,Login
+    UpdateMovie,MovieDetail,MoviePicture,MovieReport,MovieReport1//,Login
   }
 }
 </script>

@@ -93,6 +93,7 @@
         </div>
         <el-divider></el-divider>
         <el-button type="primary" @click="queryMovieReport" icon="el-icon-collection">查看电影报告</el-button>
+        <el-button type="primary" @click="queryMovieReport1" icon="el-icon-collection">查看电影评分报告</el-button>
     </div>
 </template>
 
@@ -249,6 +250,9 @@ export default {
         },
         queryMovieReport(){
               this.$router.push({path: '/movieReport/'});
+        },
+        queryMovieReport1(){
+              this.$router.push({path: '/movieReport1/'});
         }
  
     },

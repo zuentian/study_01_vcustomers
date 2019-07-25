@@ -13,6 +13,7 @@ import UpdateMovie from './components/UpdateMovie.vue'
 import MovieDetail from './components/MovieDetail.vue'
 import MoviePicture from './components/MoviePicture.vue'
 import MovieReport from './components/MovieReport.vue'
+import MovieReport1 from './components/MovieReport1.vue'
 export default[
     {path:"/",component:Customers},
     {path:"/login",component:Login},
@@ -29,4 +30,5 @@ export default[
     {path:"/movieDetail/:movieId",component:MovieDetail},
     {path:"/moviePicture/:movieId",component:MoviePicture},
     {path:"/movieReport",component:MovieReport},
+    {path:"/movieReport1",component:MovieReport1}
 ]
