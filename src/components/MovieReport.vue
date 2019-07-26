@@ -77,7 +77,7 @@ export default {
               legend: {
                   orient : 'vertical',
                   x : 'left',
-                  data:response.body.data.name,
+                  data:response.body.data.name,//这种方法居然可以，但在别的视图里却有问题
                   selected:response.body.selectShowMap,
               },
               series:[{
