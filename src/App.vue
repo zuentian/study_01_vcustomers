@@ -17,8 +17,7 @@
             <li><router-link to="/movieInfo">主页</router-link></li>
             <li><router-link to="/about">About</router-link></li>
             <li><router-link to="/addressListAdd">城市列表</router-link></li>
-             <li><router-link to="/updownFile">文件上传</router-link></li>
-             <li><router-link to="/echartsShow">Echarts展示</router-link></li>
+            <li><router-link to="/dict">数据字典</router-link></li>
           </ul>
 
           <ul class="nav navbar-nav navbar-right">
@@ -38,8 +37,8 @@ import Add from './components/Add'
 import CustomerDetails from './components/CustomerDetails'
 import Edit from './components/Edit'
 import AddressListAdd from './components/AddressListAdd'
-import UpdownFile from './components/UpdownFile'
-import EchartsShow from './components/EchartsShow'
+//import UpdownFile from './components/UpdownFile'
+//import EchartsShow from './components/EchartsShow'
 import AddMovie from './components/AddMovie'
 //import Login from './components/Login'
 import MovieInfo from './components/MovieInfo'
@@ -48,12 +47,13 @@ import MovieDetail from './components/MovieDetail'
 import MoviePicture from './components/MoviePicture'
 import MovieReport from './components/MovieReport'
 import MovieReport1 from './components/MovieReport1'
+import Dict from './components/Dict'
 export default {
   name: 'App',
   components: {
     Customers,About,Add,CustomerDetails,Edit,
-    AddressListAdd,UpdownFile,EchartsShow,AddMovie,MovieInfo,
-    UpdateMovie,MovieDetail,MoviePicture,MovieReport,MovieReport1//,Login
+    AddressListAdd,AddMovie,MovieInfo,
+    UpdateMovie,MovieDetail,MoviePicture,MovieReport,MovieReport1,Dict//,Login
   }
 }
 </script>

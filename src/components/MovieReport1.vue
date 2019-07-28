@@ -34,6 +34,7 @@ export default {
   data () {
     return {
       DBScoreIndex:"",
+      countryIndex:"",
     }
   },
   methods:{
@@ -221,10 +222,18 @@ export default {
          let that=this;
          movieDBScoreChart.on('click',function (params) {
            console.log("params",params);
-           if(params.componentType=='"series"'){
+           if(params.componentType=="series"){
              that.DBScoreIndex=params.dataIndex;
-             that.countryCount=params.componentIndex;
-
+             that.countryIndex=params.componentIndex;
+             that.$http.post("/api/MovieDataReport/getMovieDBScoreDetailInfo",{
+                countryIndex:that.countryIndex,
+                DBScoreIndex:that.DBScoreIndex,
+             }).then(res=>{
+               
+             }).catch(err=>{
+               this.$store.commit('SHOW_ERROR_TOAST', err.body.message)  ;     
+             }).finally(() => {
+             })
 
            }
            

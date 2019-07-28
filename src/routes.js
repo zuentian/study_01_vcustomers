@@ -14,6 +14,7 @@ import MovieDetail from './components/MovieDetail.vue'
 import MoviePicture from './components/MoviePicture.vue'
 import MovieReport from './components/MovieReport.vue'
 import MovieReport1 from './components/MovieReport1.vue'
+import Dict from './components/Dict.vue'
 export default[
     {path:"/",component:Customers},
     {path:"/login",component:Login},
@@ -22,13 +23,14 @@ export default[
     {path:"/customer/:userId",component:CustomerDetails},
     {path:"/edit/:userId",component:Edit},
     {path:"/addressListAdd",component:AddressListAdd},
-    {path:"/updownFile",component:UpdownFile},
-    {path:"/echartsShow",component:EchartsShow},
+    //{path:"/updownFile",component:UpdownFile},
+   // {path:"/echartsShow",component:EchartsShow},
     {path:"/addMovie",component:AddMovie},
     {path:"/movieInfo",component:MovieInfo},
     {path:"/updateMovie/:movieId",component:UpdateMovie},
     {path:"/movieDetail/:movieId",component:MovieDetail},
     {path:"/moviePicture/:movieId",component:MoviePicture},
     {path:"/movieReport",component:MovieReport},
-    {path:"/movieReport1",component:MovieReport1}
+    {path:"/movieReport1",component:MovieReport1},
+    {path:"/dict",component:Dict},
 ]
