@@ -5,6 +5,20 @@
       </div>
       <div  id='movieDBScore'  :style="{width:'100%',height:'400%'}" >
       </div>
+
+      <div>
+        <el-drawer  :loading="showTableLoading"  :title="scoreStartAndEnd+'分段内'+showSeriesName+'详细信息'" :style="{'font-size':'20px'}" :visible.sync="showTable" direction="rtl" size="30%"> 
+          
+         
+          <el-table :data="movieData">
+            <el-table-column  type="index" width="50"> </el-table-column>
+            <el-table-column property="movieName" label="电影名字" width="250"></el-table-column>
+            <el-table-column property="movieCountry" label="电影制片地区" width="150"></el-table-column>
+            <el-table-column property="movieDBScore" label="电影豆瓣评分"></el-table-column>
+          </el-table>
+        </el-drawer>
+      </div>
+
   </div>
 </template>
 
@@ -35,6 +49,11 @@ export default {
     return {
       DBScoreIndex:"",
       countryIndex:"",
+      showTableLoading:false,
+      showTable:false,
+      scoreStartAndEnd:"",
+      showSeriesName:"",
+      movieData:[],
     }
   },
   methods:{
@@ -221,18 +240,23 @@ export default {
          })
          let that=this;
          movieDBScoreChart.on('click',function (params) {
-           console.log("params",params);
+           //console.log("params",params);
            if(params.componentType=="series"){
+             that.scoreStartAndEnd=params.name;
+             that.showSeriesName=params.seriesName;
+             that.showTable=true;
+             that.showTableLoading=true;
              that.DBScoreIndex=params.dataIndex;
              that.countryIndex=params.componentIndex;
              that.$http.post("/api/MovieDataReport/getMovieDBScoreDetailInfo",{
                 countryIndex:that.countryIndex,
                 DBScoreIndex:that.DBScoreIndex,
              }).then(res=>{
-               
+               that.movieData=res.body;
              }).catch(err=>{
-               this.$store.commit('SHOW_ERROR_TOAST', err.body.message)  ;     
+               that.$store.commit('SHOW_ERROR_TOAST', err.body.message)  ;     
              }).finally(() => {
+               this.showTableLoading=false;
              })
 
            }
@@ -253,9 +277,16 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="scss" rel="stylesheet/scss"   scoped>
 .movieReport1{
      margin:21px auto;
     
 }
+.el-drawer{
+/deep/  .el-drawer__header span {
+    
+  font-size: 30px !important;
+}
+}
+
 </style>
