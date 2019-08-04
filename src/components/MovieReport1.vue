@@ -10,7 +10,7 @@
         <el-drawer  :loading="showTableLoading"  :title="scoreStartAndEnd+'分段内'+showSeriesName+'详细信息'" :style="{'font-size':'20px'}" :visible.sync="showTable" direction="rtl" size="30%"> 
           
          
-          <el-table :data="movieData">
+          <el-table :data="movieData" height="800px">
             <el-table-column  type="index" width="50"> </el-table-column>
             <el-table-column property="movieName" label="电影名字" width="250"></el-table-column>
             <el-table-column property="movieCountry" label="电影制片地区" width="150"></el-table-column>
@@ -54,6 +54,7 @@ export default {
       scoreStartAndEnd:"",
       showSeriesName:"",
       movieData:[],
+      series:[],
     }
   },
   methods:{
@@ -89,153 +90,175 @@ export default {
        this.$http.post('/api/MovieDataReport/getMovieDBScoreCount',{}
        ).then(function(response){
          console.log(response);
+         for(var i=0;i<response.body.movieCountryArray.length;i++){
+          this.series.push({
+            name:response.body.movieCountryArray[i],
+                  type:'bar',
+                  //barWidth:'50%',
+                  markPoint : {
+                    data : [
+                        {type : 'max', name: '最大值',symbolSize:60},
+                        {type : 'min', name: '最小值',symbolSize:60}
+                    ]
+                  },
+                  markLine : {
+                      data : [
+                          {type : 'average', name: '平均值'}
+                      ]
+                  },
+                  data:response.body.movieValueArray[i],
+          });
+          
+         }
+         console.log(this.series);
          movieDBScoreChart.setOption({
            
                 legend: {
-                    data:['全球电影','中国大陆电影','美国电影','日本电影','韩国电影']
+                    data:response.body.movieCountryArray
                 },
                 calculable : true,
                 xAxis : [{
                     type : 'category',
-                    data : response.body.name
+                    data : response.body.movieScoreArray
                 }],
                 yAxis : [{
                     type : 'value'
                 }],
-                series : [{
-                  name:'全球电影',
-                  type:'bar',
-                  //barWidth:'50%',
-                  markPoint : {
-                    data : [
-                        {type : 'max', name: '最大值',symbolSize:60},
-                        {type : 'min', name: '最小值',symbolSize:60}
-                    ]
-                  },
-                  markLine : {
-                      data : [
-                          {type : 'average', name: '平均值'}
-                      ]
-                  },
-                  data:response.body.value,
-                },
-                {
-                  name:'中国大陆电影',
-                  type:'bar',
-                  //barWidth:'50%',
-                  markPoint : {
-                    data : [
-                        {type : 'max', name: '最大值',symbolSize:60},
-                        {type : 'min', name: '最小值',symbolSize:60}
-                    ]
-                  },
-                  itemStyle:{
-                  //通常情况下：
-                    normal:{  
-                        color: '#B5C334',
-                      }
-                  },
-                  //鼠标悬停时：
-                  emphasis: {
-                      shadowBlur: 10,
-                      shadowOffsetX: 0,
-                      shadowColor: 'rgba(0, 0, 0, 0.5)'
-                  },
-                  markLine : {
-                      data : [
-                          {type : 'average', name: '平均值'}
-                      ]
-                  },
-                  data:response.body.valueChina,
-                },
-                {
-                  name:'美国电影',
-                  type:'bar',
-                  //barWidth:'50%',
-                  markPoint : {
-                    data : [
-                        {type : 'max', name: '最大值',symbolSize:60},
-                        {type : 'min', name: '最小值',symbolSize:60}
-                    ]
-                  },
-                  itemStyle:{
-                  //通常情况下：
-                    normal:{  
-                        color: '#0cec53',
-                      }
-                  },
-                  //鼠标悬停时：
-                  emphasis: {
-                      shadowBlur: 10,
-                      shadowOffsetX: 0,
-                      shadowColor: 'rgba(0, 0, 0, 0.5)'
-                  },
-                  markLine : {
-                      data : [
-                          {type : 'average', name: '平均值'}
-                      ]
-                  },
-                  data:response.body.valueUsa,
-                },
-                {
-                  name:'日本电影',
-                  type:'bar',
-                  //barWidth:'50%',
-                  markPoint : {
-                    data : [
-                        {type : 'max', name: '最大值',symbolSize:60},
-                        {type : 'min', name: '最小值',symbolSize:60}
-                    ]
-                  },
-                  itemStyle:{
-                  //通常情况下：
-                    normal:{  
-                        color: '#e00a56',
-                      }
-                  },
-                  //鼠标悬停时：
-                  emphasis: {
-                      shadowBlur: 10,
-                      shadowOffsetX: 0,
-                      shadowColor: 'rgba(0, 0, 0, 0.5)'
-                  },
-                  markLine : {
-                      data : [
-                          {type : 'average', name: '平均值'}
-                      ]
-                  },
-                  data:response.body.valueJapan,
-                },
-                {
-                  name:'韩国电影',
-                  type:'bar',
-                  //barWidth:'50%',
-                  markPoint : {
-                    data : [
-                        {type : 'max', name: '最大值',symbolSize:60},
-                        {type : 'min', name: '最小值',symbolSize:60}
-                    ]
-                  },
-                  itemStyle:{
-                  //通常情况下：
-                    normal:{  
-                        color: '#0d17f9',
-                      }
-                  },
-                  //鼠标悬停时：
-                  emphasis: {
-                      shadowBlur: 10,
-                      shadowOffsetX: 0,
-                      shadowColor: 'rgba(0, 0, 0, 0.5)'
-                  },
-                  markLine : {
-                      data : [
-                          {type : 'average', name: '平均值'}
-                      ]
-                  },
-                  data:response.body.valueKor,
-                }
-                ]
+                series:this.series,
+                // series : [{
+                //   name:'全球电影',
+                //   type:'bar',
+                //   //barWidth:'50%',
+                //   markPoint : {
+                //     data : [
+                //         {type : 'max', name: '最大值',symbolSize:60},
+                //         {type : 'min', name: '最小值',symbolSize:60}
+                //     ]
+                //   },
+                //   markLine : {
+                //       data : [
+                //           {type : 'average', name: '平均值'}
+                //       ]
+                //   },
+                //   data:response.body.value0,
+                // },
+                // {
+                //   name:'中国大陆电影',
+                //   type:'bar',
+                //   //barWidth:'50%',
+                //   markPoint : {
+                //     data : [
+                //         {type : 'max', name: '最大值',symbolSize:60},
+                //         {type : 'min', name: '最小值',symbolSize:60}
+                //     ]
+                //   },
+                //   itemStyle:{
+                //   //通常情况下：
+                //     normal:{  
+                //         color: '#B5C334',
+                //       }
+                //   },
+                //   //鼠标悬停时：
+                //   emphasis: {
+                //       shadowBlur: 10,
+                //       shadowOffsetX: 0,
+                //       shadowColor: 'rgba(0, 0, 0, 0.5)'
+                //   },
+                //   markLine : {
+                //       data : [
+                //           {type : 'average', name: '平均值'}
+                //       ]
+                //   },
+                //   data:response.body.value1,
+                // },
+                // {
+                //   name:'美国电影',
+                //   type:'bar',
+                //   //barWidth:'50%',
+                //   markPoint : {
+                //     data : [
+                //         {type : 'max', name: '最大值',symbolSize:60},
+                //         {type : 'min', name: '最小值',symbolSize:60}
+                //     ]
+                //   },
+                //   itemStyle:{
+                //   //通常情况下：
+                //     normal:{  
+                //         color: '#0cec53',
+                //       }
+                //   },
+                //   //鼠标悬停时：
+                //   emphasis: {
+                //       shadowBlur: 10,
+                //       shadowOffsetX: 0,
+                //       shadowColor: 'rgba(0, 0, 0, 0.5)'
+                //   },
+                //   markLine : {
+                //       data : [
+                //           {type : 'average', name: '平均值'}
+                //       ]
+                //   },
+                //   data:response.body.value2,
+                // },
+                // {
+                //   name:'日本电影',
+                //   type:'bar',
+                //   //barWidth:'50%',
+                //   markPoint : {
+                //     data : [
+                //         {type : 'max', name: '最大值',symbolSize:60},
+                //         {type : 'min', name: '最小值',symbolSize:60}
+                //     ]
+                //   },
+                //   itemStyle:{
+                //   //通常情况下：
+                //     normal:{  
+                //         color: '#e00a56',
+                //       }
+                //   },
+                //   //鼠标悬停时：
+                //   emphasis: {
+                //       shadowBlur: 10,
+                //       shadowOffsetX: 0,
+                //       shadowColor: 'rgba(0, 0, 0, 0.5)'
+                //   },
+                //   markLine : {
+                //       data : [
+                //           {type : 'average', name: '平均值'}
+                //       ]
+                //   },
+                //   data:response.body.value3,
+                // },
+                // {
+                //   name:'韩国电影',
+                //   type:'bar',
+                //   //barWidth:'50%',
+                //   markPoint : {
+                //     data : [
+                //         {type : 'max', name: '最大值',symbolSize:60},
+                //         {type : 'min', name: '最小值',symbolSize:60}
+                //     ]
+                //   },
+                //   itemStyle:{
+                //   //通常情况下：
+                //     normal:{  
+                //         color: '#0d17f9',
+                //       }
+                //   },
+                //   //鼠标悬停时：
+                //   emphasis: {
+                //       shadowBlur: 10,
+                //       shadowOffsetX: 0,
+                //       shadowColor: 'rgba(0, 0, 0, 0.5)'
+                //   },
+                //   markLine : {
+                //       data : [
+                //           {type : 'average', name: '平均值'}
+                //       ]
+                //   },
+                //   data:response.body.value4,
+                // }
+                // ]
          
          })
          let that=this;
