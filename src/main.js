@@ -53,8 +53,17 @@ router.beforeEach((to,from,next)=>{
   //if (process.env.WHITE_LIST.indexOf(to.path) !== -1) { // 是否在白名单内
     //next()
   //} 
+  console.log("userInfo",store.state.userInfo);
   if(!store.state.userInfo){
-
+    store.dispatch('AC_GetUserInfo').then(user => {
+      return store.dispatch('AC_GenerateRoutes', user)
+    }).then((routers) => {
+      //router.addRoutes(routers)
+      //next({...to, replace: true})
+    }).catch(err => {
+      console.log('跳转登录页面');
+      store.dispatch('AC_Redirect2Login')
+    })
   }
   next()
 })
