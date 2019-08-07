@@ -2,7 +2,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import { login } from '@/api'
 import {ModalPlugin} from '@/plugins'
-import { setToken } from '@/utils'
+import { setToken,getToken,removeToken } from '@/utils'
 Vue.use(Vuex)
 Vue.use(ModalPlugin)
 
@@ -15,14 +15,19 @@ Vue.use(ModalPlugin)
 //创建vuex的store--状态管理
 const store=new Vuex.Store({
     state:{
-        // count:5
+        token:null,
+        userInfo:1,
     },
     mutations:{//提交状态修改
         UPDATE_TOKEN(state, payload) {
             setToken(payload)
-            console.log(payload)
             state.token = payload
           },
+        CLEAR_USER_INFO(state,payload){
+            removeToken()
+            state.userInfo=null
+        },
+
         SHOW_ERROR_TOAST(state, message) {
             Vue.modal.toast({
               showClose: true,
@@ -36,7 +41,7 @@ const store=new Vuex.Store({
         
         AC_Login({ dispatch, commit }, payload) {
             return login(payload).then(token => {
-            commit('UPDATE_TOKEN', token)   
+            commit('UPDATE_TOKEN', token.bodyText)   
         })
   }
     },

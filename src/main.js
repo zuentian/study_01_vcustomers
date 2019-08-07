@@ -20,6 +20,10 @@ import echarts from 'echarts'
 
 import store from './store'//状态管理
 
+import NProgress from 'nprogress'//进度条
+import 'nprogress/nprogress.css'
+
+
 
 Vue.config.productionTip = false
 
@@ -36,6 +40,30 @@ const router =new VueRouter({
   base:__dirname,//当前路径
   routes:Routes
 })
+
+
+router.beforeEach((to,from,next)=>{
+  NProgress.start()
+  console.log("to",to)
+  /*
+  process.env可以获取系统的环境信息，比如不同的服务器，可以设置不同的NODE_ENV，然后根据NODE_ENV处理不同的需求，也能设置响应的地址和端口
+  */
+  //console.log("process.env.WHITE_LIST",process.env.WHITE_LIST)
+  //console.log("process.env.BUILD_ENV",process.env.BUILD_ENV)
+  //if (process.env.WHITE_LIST.indexOf(to.path) !== -1) { // 是否在白名单内
+    //next()
+  //} 
+  if(!store.state.userInfo){
+
+  }
+  next()
+})
+
+router.afterEach(()=>{
+  NProgress.done()
+})
+
+
 
 /* eslint-disable no-new */
 new Vue({

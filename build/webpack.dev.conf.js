@@ -51,7 +51,8 @@ const devWebpackConfig = merge(baseWebpackConfig, {
       jQuery:"jquery"
     }),
     new webpack.DefinePlugin({
-      'process.env': require('../config/dev.env')
+      'process.env': require('../config/dev.env'),
+      'process.env.BUILD_ENV':JSON.stringify(process.env.BUILD_ENV)//这是给环境变量里设置一个BUILD_ENV属性，这儿要设置，package.json里面也要设置
     }),
     new webpack.HotModuleReplacementPlugin(),
     new webpack.NamedModulesPlugin(), // HMR shows correct file names in console on update.
