@@ -45,27 +45,37 @@ const router =new VueRouter({
 router.beforeEach((to,from,next)=>{
   NProgress.start()
   console.log("to",to)
+
+  if (/\/http/.test(to.path)) {// http直接跳到 bn
+    let url = to.path.split('http')[1]
+    console.log("url",url);
+    window.location.href = `http${decodeURIComponent(url)}`
+} {
+
   /*
   process.env可以获取系统的环境信息，比如不同的服务器，可以设置不同的NODE_ENV，然后根据NODE_ENV处理不同的需求，也能设置响应的地址和端口
   */
-  //console.log("process.env.WHITE_LIST",process.env.WHITE_LIST)
   //console.log("process.env.BUILD_ENV",process.env.BUILD_ENV)
-  //if (process.env.WHITE_LIST.indexOf(to.path) !== -1) { // 是否在白名单内
-    //next()
-  //} 
-  console.log("userInfo",store.state.userInfo);
-  if(!store.state.userInfo){
-    store.dispatch('AC_GetUserInfo').then(user => {
-      return store.dispatch('AC_GenerateRoutes', user)
-    }).then((routers) => {
-      //router.addRoutes(routers)
-      //next({...to, replace: true})
-    }).catch(err => {
-      console.log('跳转登录页面');
-      store.dispatch('AC_Redirect2Login')
-    })
+  if (process.env.WHITE_LIST.indexOf(to.path) !== -1) { // 是否在白名单内,设置white_list里的值，可以让/login不会校验
+    next()
+  } else{
+    console.log("userInfo",store.state.userInfo);
+    if(!store.state.userInfo){//如果内存里没有userInfo，可以根据Token值获取用户信息
+      store.dispatch('AC_GetUserInfo').then(user => {
+        return store.dispatch('AC_GenerateRoutes', user)
+      }).then((routers) => {
+        //router.addRoutes(routers)
+        next({...to, replace: true})
+      }).catch(err => {
+        console.log('错误跳转登录页面');
+        store.dispatch('AC_Redirect2Login')
+      })
+    }else {// 存在说明登录正常跳转
+      next()
+    }
   }
-  next()
+}
+
 })
 
 router.afterEach(()=>{

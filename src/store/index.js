@@ -1,8 +1,10 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import { login,getCurrentUser } from '@/api'
+import { login,getCurrentUser ,logout} from '@/api'
 import {ModalPlugin} from '@/plugins'
 import { setToken,getToken,removeToken } from '@/utils'
+import { filterAsyncRouter } from '@/common/functions'
+import { constRouterMap, asyncRouterMap } from './routes'
 Vue.use(Vuex)
 Vue.use(ModalPlugin)
 
@@ -17,6 +19,8 @@ const store=new Vuex.Store({
     state:{
         token:null,
         userInfo:null,
+        routers: constRouterMap,
+        addRouters: [],
     },
     mutations:{//提交状态修改
         UPDATE_TOKEN(state, payload) {
@@ -34,7 +38,14 @@ const store=new Vuex.Store({
               message: message,
               type: 'error'
             })
-        }
+        },
+        UPDATE_USER_INFO(state, payload) {
+          state.userInfo = payload 
+        },
+        SET_ROUTERS: (state, routers) => {
+          state.addRouters = routers
+          state.routers = constRouterMap.concat(routers)
+        },
     },
     //有异步的时候，需要action
     actions:{
@@ -45,16 +56,17 @@ const store=new Vuex.Store({
         })
         },
         AC_GetUserInfo({ commit, state: { token } }) {
-            console.log("AC_GetUserInfo",token);
+            console.log("Token=",getToken())
             return getCurrentUser({ token: token || getToken() }).then(response => {
-              commit("UPDATE_USER_INFO", response)    
-              return response
+              commit("UPDATE_USER_INFO", response.body)    
+              return response.body
             })      
         },
         AC_GenerateRoutes({ commit }, user) {
-            return new Promise(resolve => {
+            return new Promise(resolve => {//romise的构造函数接收一个参数，是函数，并且传入两个参数：resolve，reject，分别表示异步操作执行成功后的回调函数和异步操作执行失败后的回调函数。
               const accessedRouters = filterAsyncRouter(asyncRouterMap, user)
               commit('SET_ROUTERS', accessedRouters)
+              console.log("AC_GenerateRoutes",user,accessedRouters);
               resolve(accessedRouters)
             })
         },
@@ -65,8 +77,10 @@ const store=new Vuex.Store({
         },
         AC_Redirect2Login({ dispatch, commit }, targetUrl) {
             return dispatch('AC_Logout').then(response => {
-              window.location.href = `#/login?targetUrl=${targetUrl?encodeURIComponent(targetUrl):encodeURIComponent(window.location.href)}`
-              window.location.reload()
+              console.log("window.location.href",window.location.href);
+               console.log(targetUrl);
+               window.location.href = `#/login?targetUrl=${targetUrl?encodeURIComponent(targetUrl):encodeURIComponent(window.location.href)}`
+               window.location.reload()
             })
         }
     },
