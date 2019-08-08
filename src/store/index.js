@@ -76,11 +76,10 @@ const store=new Vuex.Store({
           })
         },
         AC_Redirect2Login({ dispatch, commit }, targetUrl) {
-            return dispatch('AC_Logout').then(response => {
-              console.log("window.location.href",window.location.href);
-               console.log(targetUrl);
-               window.location.href = `#/login?targetUrl=${targetUrl?encodeURIComponent(targetUrl):encodeURIComponent(window.location.href)}`
-               window.location.reload()
+               return dispatch('AC_Logout').then(response => {
+                 console.log(`#/login?targetUrl=${targetUrl?encodeURIComponent(targetUrl):encodeURIComponent(window.location.href)}`)
+                window.location.href = `#/login?targetUrl=${targetUrl?encodeURIComponent(targetUrl):encodeURIComponent(window.location.href)}`
+                window.location.reload()
             })
         }
     },
