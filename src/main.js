@@ -37,7 +37,7 @@ Vue.prototype.HOST = '/api'
 //设置路由
 const router =new VueRouter({
   //这种history模式不能刷新，一刷新，然后就找不到页面，
-  //公司要求是要有当前页面的刷新功能，还要有直接通过链接跳转到指定页面的功能，显然history模式是不符合要求的，所以还得用hash模式
+  //要有当前页面的刷新功能，还要有直接通过链接跳转到指定页面的功能，显然history模式是不符合要求的，所以还得用hash模式
   //mode:"history",//去掉#
   base:__dirname,//当前路径
   routes:Routes
