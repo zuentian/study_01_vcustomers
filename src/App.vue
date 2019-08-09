@@ -21,6 +21,16 @@
           </ul>
 
           <ul class="nav navbar-nav navbar-right">
+             <li>
+                <div v-if="userInfo" class="avatar-wrapper">
+                 <img class="user-avatar" :src="userInfo.avatar | compressImage(80,80)">
+                 <span>{{userInfo.name}}</span>
+                 <i class="el-icon-arrow-down"></i>
+                </div>
+             </li>
+             <li>
+                  <span  style="display:block;">退出</span>
+              </li>            
             <li><router-link to="/addMovie">添加电影</router-link></li>
           </ul>
         </div>
@@ -48,13 +58,19 @@ import MoviePicture from './components/MoviePicture'
 import MovieReport from './components/MovieReport'
 import MovieReport1 from './components/MovieReport1'
 import Dict from './components/Dict'
+import { mapGetters } from 'vuex'
 export default {
   name: 'App',
   components: {
     Customers,About,Add,CustomerDetails,Edit,
     AddressListAdd,AddMovie,MovieInfo,
     UpdateMovie,MovieDetail,MoviePicture,MovieReport,MovieReport1,Dict//,Login
-  }
+  },
+  computed: {
+    ...mapGetters([
+      'userInfo'
+    ])
+  },
 }
 </script>
 

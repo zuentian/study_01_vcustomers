@@ -9,3 +9,7 @@ export function getCurrentUser (params) {
 export function logout (params) {
   return Vue.http.post('/api/UserLogin/logout', params || {})
 }
+
+export function register (params) {
+  return Vue.http.post('/api/UserLogin/register', params || {})
+}
