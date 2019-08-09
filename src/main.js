@@ -48,11 +48,11 @@ router.beforeEach((to,from,next)=>{
   NProgress.start()
   console.log("to",to)
 
-  if (/\/http/.test(to.path)) {// http直接跳到 bn
+if (/\/http/.test(to.path)) {// http直接跳到 bn
     let url = to.path.split('http')[1]
     console.log("url",url);
     window.location.href = `http${decodeURIComponent(url)}`
-} {
+} else{
 
   /*
   process.env可以获取系统的环境信息，比如不同的服务器，可以设置不同的NODE_ENV，然后根据NODE_ENV处理不同的需求，也能设置响应的地址和端口
@@ -66,8 +66,10 @@ router.beforeEach((to,from,next)=>{
       store.dispatch('AC_GetUserInfo').then(user => {
         return store.dispatch('AC_GenerateRoutes', user)
       }).then((routers) => {
-        //router.addRoutes(routers)
+        console.log("1111",to);
+        router.addRoutes(routers)
         next({...to, replace: true})
+        console.log("22222",to);
       }).catch(err => {
         console.log('错误就跳转登录页面');
         store.dispatch('AC_Redirect2Login')

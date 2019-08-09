@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import { login,getCurrentUser ,logout} from '@/api'
+import { login,getCurrentUser ,logout,register} from '@/api'
 import {ModalPlugin} from '@/plugins'
 import { setToken,getToken,removeToken } from '@/utils'
 import { filterAsyncRouter } from '@/common/functions'
@@ -58,6 +58,7 @@ const store=new Vuex.Store({
         AC_GetUserInfo({ commit, state: { token } }) {
             console.log("Token=",getToken())
             return getCurrentUser({ token: token || getToken() }).then(response => {
+              console.log("response", response.body)
               commit("UPDATE_USER_INFO", response.body)    
               return response.body
             })      
@@ -81,7 +82,12 @@ const store=new Vuex.Store({
                 window.location.href = `#/login?targetUrl=${targetUrl?encodeURIComponent(targetUrl):encodeURIComponent(window.location.href)}`
                 window.location.reload()
             })
-        }
+        },
+        AC_REGISTER({ dispatch, commit }, payload) {
+          return register(payload).then(response => {
+            window.location.reload()
+        })
+        },
     },
     getters:{
         // getState(state){

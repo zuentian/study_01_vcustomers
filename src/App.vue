@@ -21,13 +21,13 @@
           </ul>
 
           <ul class="nav navbar-nav navbar-right">
-             <li>
+             <!-- <li>
                 <div v-if="userInfo" class="avatar-wrapper">
                  <img class="user-avatar" :src="userInfo.avatar | compressImage(80,80)">
                  <span>{{userInfo.name}}</span>
                  <i class="el-icon-arrow-down"></i>
                 </div>
-             </li>
+             </li> -->
              <li>
                   <span  style="display:block;">退出</span>
               </li>            
@@ -68,7 +68,7 @@ export default {
   },
   computed: {
     ...mapGetters([
-      'userInfo'
+      //'userInfo'
     ])
   },
 }
