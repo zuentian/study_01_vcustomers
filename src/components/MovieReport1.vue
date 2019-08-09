@@ -59,7 +59,7 @@ export default {
   },
   methods:{
     rollback(){
-       this.$router.push({ path: '/movieInfo' });
+       this.$router.push({ path: '/' });
     },
     drawLineMovieCountryCount(){
        let movieDBScoreChart = this.$echarts.init(document.getElementById('movieDBScore'),'dark');

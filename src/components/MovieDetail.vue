@@ -256,7 +256,7 @@ export default {
         })
     },
     rollback(){
-       this.$router.push({ path: '/movieInfo' });
+       this.$router.push({ path: '/' });
     },
     edit(){
       this.$router.push({path: '/updateMovie/'+this.MovieInfo.movieId});

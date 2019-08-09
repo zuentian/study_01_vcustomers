@@ -16,7 +16,6 @@ import MovieReport from './components/MovieReport.vue'
 import MovieReport1 from './components/MovieReport1.vue'
 import Dict from './components/Dict.vue'
 export default[
-    {path:"/",component:Customers},
     {path:"/login",component:Login},
     {path:"/about",component:About},
     {path:"/add",component:Add},
@@ -26,7 +25,7 @@ export default[
     //{path:"/updownFile",component:UpdownFile},
    // {path:"/echartsShow",component:EchartsShow},
     {path:"/addMovie",component:AddMovie},
-    {path:"/movieInfo",component:MovieInfo},
+    {path:"/",component:MovieInfo},
     {path:"/updateMovie/:movieId",component:UpdateMovie},
     {path:"/movieDetail/:movieId",component:MovieDetail},
     {path:"/moviePicture/:movieId",component:MoviePicture},

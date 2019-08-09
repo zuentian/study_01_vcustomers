@@ -122,8 +122,7 @@ export default {
         username: this.loginForm.username,
         password: this.loginForm.password
       }).then(res => {
-        this.loading = false
-        this.$router.push({ path: '/movieInfo' })
+        this.$router.push({ path: '/' })
       }).catch((err) => {
         this.$store.commit('SHOW_ERROR_TOAST', err.body.message || err.body)        
       }).finally(() => {
@@ -131,7 +130,24 @@ export default {
       })
      },
      register(){
-
+        this.loading = true
+        if(this.loginForm.passwordRegister!=''){
+          this.loginForm.passwordRegister=md5(this.loginForm.passwordRegister)
+        }
+        if(this.loginForm.passwordRegister2!=''){
+          this.loginForm.passwordRegister2=md5(this.loginForm.passwordRegister2)
+        }
+        this.$store.dispatch('AC_REGISTER', {
+          username: this.loginForm.usernameRegister,
+          password: this.loginForm.passwordRegister
+        }).then(res => {
+          this.$notify({title: '注册成功',message: '',type: 'success'});
+          this.$router.push({ path: '/login' })
+        }).catch((err) => {
+          this.$store.commit('SHOW_ERROR_TOAST', err.body.message || err.body)        
+        }).finally(() => {
+          this.loading = false
+        })
      },
      handleClick(tab, event) {
         Object.assign(this.$data, this.$options.data());//置空data数据
