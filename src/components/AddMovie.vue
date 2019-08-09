@@ -159,7 +159,7 @@ export default {
               this.$http.post("/api/MovieDataShow/addMovieData",fileFormData).then(res=>{
                 this.loading = false;
                 this.$notify({title: '添加成功',message: '',type: 'success'});
-                this.$router.push({ path: '/movieInfo' });
+                this.$router.push({ path: '/' });
                 
               }).catch(err=>{
                   console.log(err);

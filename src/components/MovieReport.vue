@@ -220,7 +220,7 @@ export default {
 
     },
     rollback(){
-       this.$router.push({ path: '/movieInfo' });
+       this.$router.push({ path: '/' });
     },
   },
   mounted(){

@@ -123,7 +123,7 @@ export default {
         password: this.loginForm.password
       }).then(res => {
         this.loading = false
-        this.$router.push({ path: '/movieInfo' })
+        this.$router.push({ path: '/' })
       }).catch((err) => {
         this.$store.commit('SHOW_ERROR_TOAST', err.body.message || err.body)        
       }).finally(() => {

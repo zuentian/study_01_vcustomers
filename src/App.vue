@@ -10,11 +10,11 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="/login">用户管理系统</a>
+          <router-link to="/login"><a class="navbar-brand">用户管理登陆系统</a></router-link>
         </div>
         <div id="navbar" class="collapse navbar-collapse">
           <ul class="nav navbar-nav">
-            <li><router-link to="/movieInfo">主页</router-link></li>
+            <li><router-link to="/">主页</router-link></li>
             <li><router-link to="/about">About</router-link></li>
             <li><router-link to="/addressListAdd">城市列表</router-link></li>
             <li><router-link to="/dict">数据字典</router-link></li>

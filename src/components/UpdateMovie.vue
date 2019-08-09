@@ -3,7 +3,7 @@
       
       <div class="rollback">
         <el-button type="primary" icon="el-icon-d-arrow-left" plain @click="rollback">返回</el-button>
-        <!-- <router-link to="/movieInfo" type="primary"  icon="el-icon-caret-left">返回</router-link> -->
+        <!-- <router-link to="/" type="primary"  icon="el-icon-caret-left">返回</router-link> -->
       </div>
         
 
@@ -176,7 +176,7 @@ export default {
               this.$http.post("/api/MovieDataShow/updateMovieData",fileFormData).then(res=>{
                 this.loading = false;
                 this.$notify({title: '修改成功',message: '',type: 'success'});
-                this.$router.push({ path: '/movieInfo' });
+                this.$router.push({ path: '/' });
                 
               }).catch(err=>{
                   this.$store.commit('SHOW_ERROR_TOAST', err.body.message);  
@@ -254,7 +254,7 @@ export default {
       
     },
     rollback(){
-      //this.$router.push({ path: '/movieInfo' });
+      //this.$router.push({ path: '/' });
       this.$router.go(-1);
     },
     //数据初始化
