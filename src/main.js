@@ -46,8 +46,6 @@ const router =new VueRouter({
 
 router.beforeEach((to,from,next)=>{
   NProgress.start()
-  console.log("to",to)
-
 if (/\/http/.test(to.path)) {// http直接跳到 bn
     let url = to.path.split('http')[1]
     console.log("url",url);
@@ -66,10 +64,8 @@ if (/\/http/.test(to.path)) {// http直接跳到 bn
       store.dispatch('AC_GetUserInfo').then(user => {
         return store.dispatch('AC_GenerateRoutes', user)
       }).then((routers) => {
-        console.log("1111",to);
         router.addRoutes(routers)
         next({...to, replace: true})
-        console.log("22222",to);
       }).catch(err => {
         console.log('错误就跳转登录页面');
         store.dispatch('AC_Redirect2Login')

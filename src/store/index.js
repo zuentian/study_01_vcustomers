@@ -56,9 +56,7 @@ const store=new Vuex.Store({
         })
         },
         AC_GetUserInfo({ commit, state: { token } }) {
-            console.log("Token=",getToken())
             return getCurrentUser({ token: token || getToken() }).then(response => {
-              console.log("response", response.body)
               commit("UPDATE_USER_INFO", response.body)    
               return response.body
             })      
@@ -78,7 +76,6 @@ const store=new Vuex.Store({
         },
         AC_Redirect2Login({ dispatch, commit }, targetUrl) {
                return dispatch('AC_Logout').then(response => {
-                 console.log(`#/login?targetUrl=${targetUrl?encodeURIComponent(targetUrl):encodeURIComponent(window.location.href)}`)
                 window.location.href = `#/login?targetUrl=${targetUrl?encodeURIComponent(targetUrl):encodeURIComponent(window.location.href)}`
                 window.location.reload()
             })

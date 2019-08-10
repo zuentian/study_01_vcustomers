@@ -29,7 +29,9 @@
                 </div>
              </li> -->
              <li>
-                  <span  style="display:block;">退出</span>
+               
+               
+            <span  style="display:block;">退出</span>
               </li>            
             <li><router-link to="/addMovie">添加电影</router-link></li>
           </ul>
@@ -59,6 +61,8 @@ import MovieReport from './components/MovieReport'
 import MovieReport1 from './components/MovieReport1'
 import Dict from './components/Dict'
 import { mapGetters } from 'vuex'
+
+
 export default {
   name: 'App',
   components: {
