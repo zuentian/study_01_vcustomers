@@ -17,7 +17,7 @@ module.exports = {
         target:'http://localhost:8081',
         changeOrigin:true,
         pathRewrite:{
-          '^/api':'http://localhost:8081'
+          '^/api':'http://localhost:8081'//路径重写  前端/api 对应 后端/
         }
     }
     },
